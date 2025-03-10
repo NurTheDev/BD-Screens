@@ -1,0 +1,49 @@
+@import "tailwindcss";
+@plugin "daisyui";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+:root {
+  --primary-color: #f41b3b;
+  --primary-black: #0a070b;
+  --black-semi-medium: ##363536;
+  --black-medium: #4f4e50;
+  --black-light: #e8ecef;
+  --white: #fff;
+  /* font size */
+  --heading-1: 65px;
+  --heading-2: 40px;
+  --heading-3: 38px;
+  --heading-4: 32px;
+  --subtitle-1: 24px;
+  --subtitle-2: 20px;
+  /* font Family */
+  --poppins: "Poppins", sans-serif;
+}
+@theme {
+  --color-primary: var(--primary-color);
+  --color-primary-black: var(--primary-black);
+  --color-black-semi-medium: var(--black-semi-medium);
+  --color-black-medium: var(--black-medium);
+  --color-black-light: var(--black-light);
+  --color-white: var(--white);
+  /* font size */
+  --heading-1: var(--heading-1);
+  --heading-2: var(--heading-2);
+  --heading-3: var(--heading-3);
+  --heading-4: var(--heading-4);
+  --subtitle-1: var(--subtitle-1);
+  --subtitle-2: var(--subtitle-2);
+  /* font Family */
+  --font-family: var(--poppins);
+}
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    font-family: var(--font-family);
+    background-color: var(--primary-black);
+    color: var(--white);
+    font-family: var(--poppins);
+  }
+}
