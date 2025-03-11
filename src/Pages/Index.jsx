@@ -5,7 +5,7 @@ import Navbar from "../common/Navbar";
 
 const Index = () => {
   return (
-    <div>
+    <div className="CustomContainer">
       <Navbar />
       <Outlet />
     </div>
