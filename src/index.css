@@ -7,6 +7,7 @@
   --black-semi-medium: ##363536;
   --black-medium: #4f4e50;
   --black-light: #e8ecef;
+  --light-gray: #807E81;
   --white: #fff;
   /* font size */
   --heading-1: 65px;
@@ -19,12 +20,13 @@
   --poppins: "Poppins", sans-serif;
 }
 @theme {
-  --color-primary: var(--primary-color);
+  --color-primaryColor: var(--primary-color);
   --color-primary-black: var(--primary-black);
   --color-black-semi-medium: var(--black-semi-medium);
   --color-black-medium: var(--black-medium);
   --color-black-light: var(--black-light);
   --color-white: var(--white);
+  --color-light-gray: var(--light-gray);
   /* font size */
   --heading-1: var(--heading-1);
   --heading-2: var(--heading-2);
