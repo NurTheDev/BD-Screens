@@ -8,11 +8,13 @@ import {
   MdOutlineConnectedTv,
   MdOutlineLocalMovies,
 } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import Button from "./Button";
 
 const Navbar = () => {
+  const location = useLocation();
+
   const navItems = [
     { name: "Home", path: "/home", icon: <IoHomeOutline />, id: 1 },
     { name: "Movie", path: "/movie", icon: <MdOutlineLocalMovies />, id: 2 },
@@ -59,7 +61,9 @@ const Navbar = () => {
             {navItems?.map((item) => (
               <li
                 key={item.id}
-                className="pl-2 flex-row flex items-center justify-center text-light-gray hover:text-white"
+                className={`pl-2 flex-row flex items-center justify-center  hover:text-white${
+                  location.pathname === item.path ? " activeNav" : "text-light-gray"
+                }`}
               >
                 <Link to={item.path}>
                   <span className="p-0">{item.icon}</span>
@@ -75,7 +79,9 @@ const Navbar = () => {
             {navItems?.map((item) => (
               <li
                 key={item.id}
-                className="pl-2 flex-row flex items-center justify-center text-light-gray hover:text-white"
+                className={`pl-2 flex-row flex items-center justify-center  hover:text-white${
+                  location.pathname === item.path ? " activeNav" : "text-light-gray"
+                }`}
               >
                 <Link to={item.path}>
                   {" "}

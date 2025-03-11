@@ -1,9 +1,6 @@
 import React from "react";
 
-import result from "../../lib/ApiData";
 const Home = () => {
-  console.log(result);
-
   return (
     <div>
       {/* <Navbar />

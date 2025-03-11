@@ -7,7 +7,7 @@
   --black-semi-medium: ##363536;
   --black-medium: #4f4e50;
   --black-light: #e8ecef;
-  --light-gray: #807E81;
+  --light-gray: #807e81;
   --white: #fff;
   /* font size */
   --heading-1: 65px;
@@ -36,6 +36,11 @@
   --subtitle-2: var(--subtitle-2);
   /* font Family */
   --font-family: var(--poppins);
+}
+@layer components {
+  .activeNav {
+    color: var(--color-primaryColor);
+  }
 }
 @layer base {
   html,
