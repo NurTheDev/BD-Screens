@@ -35,11 +35,11 @@ const LiveShow = () => {
               />
             </div>
             <div>
-              <h1 className="text-xs lg:text-base xl:text-subtitle-1 font-semibold">
+              <h1 className="text-xs lg:text-base 2xl:text-subtitle-1 font-semibold">
                 {item.primaryTitle}
               </h1>
               <p className="font-medium hidden lg:block">{item.type}</p>
-              <button className="py-1 px-2 text-primaryColor text-sm border border-primaryColor mt-8 hover:text-white transition-all duration-100 hover:scale-95 hidden xl:block">
+              <button className="py-1 px-2 text-primaryColor text-sm border border-primaryColor mt-8 hover:text-white transition-all duration-100 hover:scale-95 hidden 2xl:block">
                 Watch now
               </button>
             </div>
