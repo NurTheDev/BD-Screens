@@ -4,34 +4,57 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import result from "../lib/ApiData";
 
-const LiveShow = () => {
+const LiveShow = ({ title, imgDiv, watchBtn, containerDiv, slideNumber }) => {
   const settings = {
     dots: false,
     infinite: true,
-    slidesToShow: 5,
+    slidesToShow: parseInt(slideNumber),
     slidesToScroll: 1,
     autoplay: true,
     speed: 2000,
     autoplaySpeed: 2000,
     cssEase: "linear",
     arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   console.log(result);
 
   return (
     <div className="mt-10 px-8">
-      <h2 className="font-bold text-heading-4 mb-10">Watch Now</h2>
+      <h2 className="font-bold text-heading-4 mb-10">{title}</h2>
       <Slider {...settings}>
         {result.map((item) => (
-          <div
-            key={item.id}
-            className="!flex !flex-col lg:!flex-row !justify-center !gap-x-4 !items-center"
-          >
-            <div className="lg:w-72 w-16 h-28 lg:h-96">
+          <div key={item.id} className={containerDiv}>
+            <div className={imgDiv}>
               <img
                 src={item.primaryImage}
                 alt={item.title}
-                className="object-cover lg:w-52 h-auto"
+                className="object-cover w-full h-full"
               />
             </div>
             <div>
@@ -39,9 +62,11 @@ const LiveShow = () => {
                 {item.primaryTitle}
               </h1>
               <p className="font-medium hidden lg:block">{item.type}</p>
-              <button className="py-1 px-2 text-primaryColor text-sm border border-primaryColor mt-8 hover:text-white transition-all duration-100 hover:scale-95 hidden 2xl:block">
-                Watch now
-              </button>
+              {watchBtn && (
+                <button className="py-1 px-2 text-primaryColor text-sm border border-primaryColor mt-8 hover:text-white transition-all duration-100 hover:scale-95 hidden 2xl:block">
+                  {watchBtn}
+                </button>
+              )}
             </div>
           </div>
         ))}

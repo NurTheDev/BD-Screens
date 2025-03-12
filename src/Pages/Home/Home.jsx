@@ -39,13 +39,14 @@ const Home = () => {
                 className="bg-white px-6 py-4 text-primary-black"
               />
             </div>
-            <button className="bg-primaryColor px-6 py-4 mt-5 lg:mt-0 cursor-pointer ">
+            <button className="bg-primaryColor  px-6 py-4 mt-5 lg:mt-0 cursor-pointer ">
               Subscribe
             </button>
           </div>
         </div>
       </div>
-      <LiveShow />
+      <LiveShow title={"Watch Now"} imgDiv={"lg:w-40 w-16 h-28 lg:h-20"} watchBtn={"Watch"} containerDiv={"!flex !flex-col lg:!flex-row !justify-center !gap-x-4 !items-center"} slideNumber={4}/>
+      <LiveShow title={"Most Popular"} imgDiv={"lg:w-64 w-16 h-28 lg:h-auto movieImgCard"} containerDiv={"!flex !flex-col !justify-center text-center !items-center"} slideNumber={5}/>
     </>
   );
 };

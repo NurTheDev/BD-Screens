@@ -68,11 +68,10 @@
 @layer base {
   html,
   body {
-    height: 100%;
+    background-color: var(--primary-black);
   }
   body {
     font-family: var(--font-family);
-    background-color: var(--primary-black);
     color: var(--white);
     font-family: var(--poppins);
   }
