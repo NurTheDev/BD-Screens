@@ -34,7 +34,7 @@ const Navbar = () => {
     { name: "Comedies", path: "/comedies", icon: <FaRegSmileBeam />, id: 6 },
   ];
   return (
-    <div className="navbar shadow-sm">
+    <div className="navbar shadow-sm xl:px-16">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -62,7 +62,9 @@ const Navbar = () => {
               <li
                 key={item.id}
                 className={`pl-2 flex-row flex items-center justify-center  hover:text-white${
-                  location.pathname === item.path ? " activeNav" : "text-light-gray"
+                  location.pathname === item.path
+                    ? " activeNav"
+                    : "text-light-gray"
                 }`}
               >
                 <Link to={item.path}>
@@ -80,7 +82,9 @@ const Navbar = () => {
               <li
                 key={item.id}
                 className={`pl-2 flex-row flex items-center justify-center  hover:text-white${
-                  location.pathname === item.path ? " activeNav" : "text-light-gray"
+                  location.pathname === item.path
+                    ? " activeNav"
+                    : "text-light-gray"
                 }`}
               >
                 <Link to={item.path}>

@@ -28,12 +28,12 @@
   --color-white: var(--white);
   --color-light-gray: var(--light-gray);
   /* font size */
-  --heading-1: var(--heading-1);
-  --heading-2: var(--heading-2);
-  --heading-3: var(--heading-3);
-  --heading-4: var(--heading-4);
-  --subtitle-1: var(--subtitle-1);
-  --subtitle-2: var(--subtitle-2);
+  --text-heading-1: var(--heading-1);
+  --text-heading-2: var(--heading-2);
+  --text-heading-3: var(--heading-3);
+  --text-heading-4: var(--heading-4);
+  --text-subtitle-1: var(--subtitle-1);
+  --text-subtitle-2: var(--subtitle-2);
   /* font Family */
   --font-family: var(--poppins);
 }
@@ -45,6 +45,24 @@
     max-width: 1920px;
     margin: 0 auto;
     padding: 0 15px;
+  }
+  .numberBtn {
+    @apply bg-white text-primary-black px-6 py-4 border-r-2 border-r-primaryColor;
+  }
+  .numberDropdown {
+    @apply absolute flex flex-col justify-center left-5;
+  }
+  .bgImg {
+    background: linear-gradient(
+        172deg,
+        #000 4.94%,
+        rgba(0, 0, 0, 0.35) 45.74%,
+        rgba(0, 0, 0, 0.9) 92.94%
+      ),
+      url("../src/assets/cover.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 }
 @layer base {
