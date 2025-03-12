@@ -16,21 +16,32 @@ const LiveShow = () => {
     cssEase: "linear",
     arrows: false,
   };
-console.log(result);
+  console.log(result);
 
   return (
     <div className="mt-10 px-8">
       <h2 className="font-bold text-heading-4 mb-10">Watch Now</h2>
       <Slider {...settings}>
         {result.map((item) => (
-          <div key={item.id} className="!flex !flex-row !justify-center !gap-x-4 !items-center">
-            <div className="w-72 h-96">
-              <img src={item.primaryImage} alt={item.title} className="object-cover w-52" />
+          <div
+            key={item.id}
+            className="!flex !flex-col lg:!flex-row !justify-center !gap-x-4 !items-center"
+          >
+            <div className="lg:w-72 w-16 h-28 lg:h-96">
+              <img
+                src={item.primaryImage}
+                alt={item.title}
+                className="object-cover lg:w-52 h-auto"
+              />
             </div>
             <div>
-              <h1 className="text-subtitle-1 font-semibold">{item.primaryTitle}</h1>
-              <p className="font-medium">{item.type}</p>
-              <button className="py-1 px-2 text-primaryColor text-sm border border-primaryColor mt-8 hover:text-white transition-all duration-100 hover:scale-95">Watch now</button>
+              <h1 className="text-xs lg:text-base xl:text-subtitle-1 font-semibold">
+                {item.primaryTitle}
+              </h1>
+              <p className="font-medium hidden lg:block">{item.type}</p>
+              <button className="py-1 px-2 text-primaryColor text-sm border border-primaryColor mt-8 hover:text-white transition-all duration-100 hover:scale-95 hidden xl:block">
+                Watch now
+              </button>
             </div>
           </div>
         ))}
