@@ -1,78 +1,91 @@
 @import "tailwindcss";
+
 @plugin "daisyui";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 :root {
-  --primary-color: #f41b3b;
-  --primary-black: #0a070b;
-  --black-semi-medium: ##363536;
-  --black-medium: #4f4e50;
-  --black-light: #e8ecef;
-  --light-gray: #807e81;
-  --white: #fff;
-  /* font size */
-  --heading-1: 65px;
-  --heading-2: 40px;
-  --heading-3: 38px;
-  --heading-4: 32px;
-  --subtitle-1: 24px;
-  --subtitle-2: 20px;
-  /* font Family */
-  --poppins: "Poppins", sans-serif;
+    --primary-color: #f41b3b;
+    --primary-black: #0a070b;
+    --black-semi-medium: #363536;
+    --black-medium: #4f4e50;
+    --black-light: #e8ecef;
+    --light-gray: #807e81;
+    --white: #fff;
+    /* font size */
+    --heading-1: 65px;
+    --heading-2: 40px;
+    --heading-3: 38px;
+    --heading-4: 32px;
+    --subtitle-1: 24px;
+    --subtitle-2: 20px;
+    /* font Family */
+    --poppins: "Poppins", sans-serif;
 }
+
 @theme {
-  --color-primaryColor: var(--primary-color);
-  --color-primary-black: var(--primary-black);
-  --color-black-semi-medium: var(--black-semi-medium);
-  --color-black-medium: var(--black-medium);
-  --color-black-light: var(--black-light);
-  --color-white: var(--white);
-  --color-light-gray: var(--light-gray);
-  /* font size */
-  --text-heading-1: var(--heading-1);
-  --text-heading-2: var(--heading-2);
-  --text-heading-3: var(--heading-3);
-  --text-heading-4: var(--heading-4);
-  --text-subtitle-1: var(--subtitle-1);
-  --text-subtitle-2: var(--subtitle-2);
-  /* font Family */
-  --font-family: var(--poppins);
+    --color-primaryColor: var(--primary-color);
+    --color-primary-black: var(--primary-black);
+    --color-black-semi-medium: var(--black-semi-medium);
+    --color-black-medium: var(--black-medium);
+    --color-black-light: var(--black-light);
+    --color-white: var(--white);
+    --color-light-gray: var(--light-gray);
+    /* font size */
+    --text-heading-1: var(--heading-1);
+    --text-heading-2: var(--heading-2);
+    --text-heading-3: var(--heading-3);
+    --text-heading-4: var(--heading-4);
+    --text-subtitle-1: var(--subtitle-1);
+    --text-subtitle-2: var(--subtitle-2);
+    /* font Family */
+    --font-family: var(--poppins);
 }
 @layer components {
-  .activeNav {
-    color: var(--color-primaryColor);
-  }
-  .CustomContainer {
-    max-width: 1920px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-  .numberBtn {
-    @apply bg-white text-primary-black px-6 py-4 border-r-2 border-r-primaryColor;
-  }
-  .numberDropdown {
-    @apply absolute flex flex-col justify-center left-5;
-  }
-  .bgImg {
-    background: linear-gradient(
-        172deg,
-        #000 4.94%,
-        rgba(0, 0, 0, 0.35) 45.74%,
-        rgba(0, 0, 0, 0.9) 92.94%
-      ),
-      url("../src/assets/cover.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
+    .activeNav {
+        color: var(--color-primaryColor);
+    }
+
+    .CustomContainer {
+        max-width: 1920px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    .numberBtn {
+        @apply bg-white text-primary-black px-6 py-4 border-r-2 border-r-primaryColor;
+    }
+
+    .numberDropdown {
+        @apply absolute flex flex-col justify-center left-5;
+    }
+
+    .bgImg {
+        background: linear-gradient(
+                172deg,
+                #000 4.94%,
+                rgba(0, 0, 0, 0.35) 45.74%,
+                rgba(0, 0, 0, 0.9) 92.94%
+        ),
+        url("../src/assets/cover.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .movieTitleCard {
+        background: linear-gradient(0deg, #0A070B 0%, rgba(10, 7, 11, 0.00) 100%);
+        z-index: 10;
+    }
 }
+
 @layer base {
-  html,
-  body {
-    background-color: var(--primary-black);
-  }
-  body {
-    font-family: var(--font-family);
-    color: var(--white);
-    font-family: var(--poppins);
-  }
+    html,
+    body {
+        background-color: var(--primary-black);
+    }
+
+    body {
+        font-family: var(--font-family);
+        color: var(--white);
+        font-family: var(--poppins);
+    }
 }

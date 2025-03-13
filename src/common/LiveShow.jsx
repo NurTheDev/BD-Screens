@@ -1,6 +1,5 @@
-
 import React from "react";
-// import propType form "prop-types";
+import PropTypes from "prop-types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -45,7 +44,6 @@ const LiveShow = ({ title, imgDiv, watchBtn, containerDiv, slideNumber }) => {
     ],
   };
 
-
   return (
     <div className="mt-10 px-8">
       <h2 className="font-bold text-heading-4 mb-10">{title}</h2>
@@ -76,7 +74,11 @@ const LiveShow = ({ title, imgDiv, watchBtn, containerDiv, slideNumber }) => {
     </div>
   );
 };
-// LiveShow.propTypes = {
-//   tile: propType.
-// }
+LiveShow.propTypes = {
+  title: PropTypes.string,
+  imgDiv: PropTypes.string,
+  watchBtn: PropTypes.string,
+  containerDiv: PropTypes.string,
+  slideNumber: PropTypes.number,
+};
 export default LiveShow;
