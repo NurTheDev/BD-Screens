@@ -48,8 +48,10 @@ function Movies({ title }) {
     ],
   };
   return (
-    <div className="mt-10 px-8">
-      <h2 className="font-bold text-heading-4 mb-10">{title}</h2>
+    <div className="mt-5 xl:mt-10 px-8 lg:mt-7 ">
+      <h2 className="font-bold text-subtitle-2 lg:text-subtitle-1 xl:text-heading-4 mb-5 lg:mb-7 xl:mb-10">
+        {title}
+      </h2>
       <Slider {...settings}>
         {result.map((item) => (
           <div

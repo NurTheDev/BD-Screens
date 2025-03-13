@@ -63,14 +63,6 @@ const Home = () => {
         }
         slideNumber={5}
       />
-      <LiveShow
-        title={"Most Popular"}
-        imgDiv={"lg:w-64 w-16 h-28 lg:h-auto movieImgCard"}
-        containerDiv={
-          "!flex cursor-pointer hover:scale-105 transition-all duration-100 !flex-col !justify-center text-center !items-center"
-        }
-        slideNumber={5}
-      />
       <Movies title={"Movies for you"} />
       <Movies title={"Latest Bangla Music"} />
     </>

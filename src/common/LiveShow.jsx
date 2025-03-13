@@ -45,8 +45,10 @@ const LiveShow = ({ title, imgDiv, watchBtn, containerDiv, slideNumber }) => {
   };
 
   return (
-    <div className="mt-10 px-8">
-      <h2 className="font-bold text-heading-4 mb-10">{title}</h2>
+    <div className="mt-5 lg:mt-7 xl:mt-10 px-8">
+      <h2 className="font-bold text-subtitle-2 lg:text-subtitle-2 xl:text-heading-4 lg:mb-7 mb-5 xl:mb-10">
+        {title}
+      </h2>
       <Slider {...settings}>
         {result.map((item) => (
           <div key={item.id} className={containerDiv}>
