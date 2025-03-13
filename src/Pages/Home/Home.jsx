@@ -45,8 +45,8 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <LiveShow title={"Watch Now"} imgDiv={"lg:w-40 w-16 h-28 lg:h-20"} watchBtn={"Watch"} containerDiv={"!flex !flex-col lg:!flex-row !justify-center !gap-x-4 !items-center"} slideNumber={4}/>
-      <LiveShow title={"Most Popular"} imgDiv={"lg:w-64 w-16 h-28 lg:h-auto movieImgCard"} containerDiv={"!flex !flex-col !justify-center text-center !items-center"} slideNumber={5}/>
+      <LiveShow title={"Watch Now"} imgDiv={"lg:w-40 w-16 h-28 lg:h-20"} watchBtn={"Watch"} containerDiv={"!flex cursor-pointer hover:scale-105 transition-all duration-100 !flex-col lg:!flex-row !justify-center !gap-x-4 !items-center"} slideNumber={4}/>
+      <LiveShow title={"Most Popular"} imgDiv={"lg:w-64 w-16 h-28 lg:h-auto movieImgCard"} containerDiv={"!flex cursor-pointer hover:scale-105 transition-all duration-100 !flex-col !justify-center text-center !items-center"} slideNumber={5}/>
     </>
   );
 };
