@@ -11,7 +11,7 @@ function MovieBanner() {
         <img
           src={data.primaryImage}
           alt={data.primaryImage}
-          className={"w-full h-[80dvh] object-center"}
+          className={"w-full h-[80dvh] object-cover"}
         />
       </div>
     </div>
