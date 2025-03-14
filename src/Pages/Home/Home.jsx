@@ -50,6 +50,7 @@ const Home = () => {
         title={"Watch Now"}
         imgDiv={"lg:w-40 w-16 h-28 lg:h-20"}
         watchBtn={"Watch"}
+        category={"top250-tv"}
         containerDiv={
           "!flex cursor-pointer hover:scale-105 transition-all duration-100 !flex-col lg:!flex-row !justify-center !gap-x-4 !items-center"
         }
@@ -61,10 +62,11 @@ const Home = () => {
         containerDiv={
           "!flex cursor-pointer hover:scale-105 transition-all duration-100 !flex-col !justify-center text-center !items-center"
         }
+        category={"most-popular-movies"}
         slideNumber={5}
       />
-      <Movies title={"Movies for you"} />
-      <Movies title={"Latest Bangla Music"} />
+      <Movies title={"Movies for you"} category={"top250-movies"} />
+      <Movies title={"Latest Bangla Music"} category={"top-box-office"} />
     </>
   );
 };

@@ -1,11 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import result from "../lib/ApiData";
+import ApiData from "../lib/ApiData";
 
-const LiveShow = ({ title, imgDiv, watchBtn, containerDiv, slideNumber }) => {
+const LiveShow = ({
+  title,
+  category,
+  imgDiv,
+  watchBtn,
+  containerDiv,
+  slideNumber,
+}) => {
+  const [result, setResult] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await ApiData({ category });
+        setResult(data);
+      } catch {
+        console.error;
+        ("Error Fetching Data");
+      }
+    };
+    fetchData();
+  }, []);
   const settings = {
     dots: false,
     infinite: true,

@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import result from "../lib/ApiData";
+import ApiData from "../lib/ApiData";
 
 Movies.propTypes = {
   title: PropTypes.string,
+  category: PropTypes.string,
 };
 
-function Movies({ title }) {
+function Movies({ title, category }) {
+  const [result, setResult] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await ApiData({ category });
+        setResult(data);
+      } catch {
+        console.error;
+        ("Error Fetching Data");
+      }
+    };
+    fetchData();
+  }, []);
   const settings = {
     dots: false,
     infinite: true,
