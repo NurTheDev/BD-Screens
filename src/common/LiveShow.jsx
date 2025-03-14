@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import ApiData from "../lib/ApiData";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const LiveShow = ({
   title,
@@ -14,6 +15,7 @@ const LiveShow = ({
   containerDiv,
   slideNumber,
 }) => {
+  const navigate = useNavigate();
   const [result, setResult] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +66,10 @@ const LiveShow = ({
       },
     ],
   };
-
+  const handleClick = (data) => {
+    navigate("/MovieBanner", { state: { data } });
+    console.log(data);
+  };
   return (
     <div className="mt-5 lg:mt-7 xl:mt-10 px-8">
       <div
@@ -75,16 +80,24 @@ const LiveShow = ({
         <h2 className="font-bold text-subtitle-2 lg:text-subtitle-2 xl:text-heading-4 ">
           {title}
         </h2>
-        <div className={"flex justify-center items-center gap-x-4"}>
+        <div
+          className={
+            "flex justify-center items-center gap-x-4 cursor-pointer hover:scale-105"
+          }
+        >
           <span>See all</span>
-          <span>
+          <span className={"text-primaryColor"}>
             <FaArrowRightLong />
           </span>
         </div>
       </div>
       <Slider {...settings}>
         {result.map((item) => (
-          <div key={item.id} className={containerDiv}>
+          <div
+            key={item.id}
+            onClick={() => handleClick(item)}
+            className={containerDiv}
+          >
             <div className={imgDiv}>
               <img
                 src={item.primaryImage}

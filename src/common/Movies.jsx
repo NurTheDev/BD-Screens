@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import ApiData from "../lib/ApiData";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 Movies.propTypes = {
   title: PropTypes.string,
@@ -63,9 +64,25 @@ function Movies({ title, category }) {
   };
   return (
     <div className="mt-5 xl:mt-10 px-8 lg:mt-7 ">
-      <h2 className="font-bold text-subtitle-2 lg:text-subtitle-1 xl:text-heading-4 mb-5 lg:mb-7 xl:mb-10">
-        {title}
-      </h2>
+      <div
+        className={
+          "flex justify-between items-center flex-row lg:mb-7 mb-5 xl:mb-10 w-full"
+        }
+      >
+        <h2 className="font-bold text-subtitle-2 lg:text-subtitle-2 xl:text-heading-4 ">
+          {title}
+        </h2>
+        <div
+          className={
+            "flex justify-center items-center gap-x-4 cursor-pointer hover:scale-105"
+          }
+        >
+          <span>See all</span>
+          <span className={"text-primaryColor"}>
+            <FaArrowRightLong />
+          </span>
+        </div>
+      </div>
       <Slider {...settings}>
         {result.map((item) => (
           <div
