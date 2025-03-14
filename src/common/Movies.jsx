@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import result from "../lib/ApiData";
 import ApiData from "../lib/ApiData";
 
 Movies.propTypes = {

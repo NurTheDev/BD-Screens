@@ -1,5 +1,5 @@
-const ApiData = async (data) => {
-  const url = `https://imdb236.p.rapidapi.com/imdb/${data}`;
+const ApiData = async ({ category }) => {
+  const url = `https://imdb236.p.rapidapi.com/imdb/${category}`;
   const options = {
     method: "GET",
     headers: {
@@ -8,7 +8,6 @@ const ApiData = async (data) => {
     },
   };
   let result;
-  console.log(url);
   try {
     const response = await fetch(url, options);
     result = await response.json();
@@ -17,6 +16,7 @@ const ApiData = async (data) => {
     console.error("from error" + error);
   }
   console.log(result);
+  console.log(url, category);
 
   return result;
 };

@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import ApiData from "../lib/ApiData";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const LiveShow = ({
   title,
@@ -66,9 +67,21 @@ const LiveShow = ({
 
   return (
     <div className="mt-5 lg:mt-7 xl:mt-10 px-8">
-      <h2 className="font-bold text-subtitle-2 lg:text-subtitle-2 xl:text-heading-4 lg:mb-7 mb-5 xl:mb-10">
-        {title}
-      </h2>
+      <div
+        className={
+          "flex justify-between items-center flex-row lg:mb-7 mb-5 xl:mb-10 w-full"
+        }
+      >
+        <h2 className="font-bold text-subtitle-2 lg:text-subtitle-2 xl:text-heading-4 ">
+          {title}
+        </h2>
+        <div className={"flex justify-center items-center gap-x-4"}>
+          <span>See all</span>
+          <span>
+            <FaArrowRightLong />
+          </span>
+        </div>
+      </div>
       <Slider {...settings}>
         {result.map((item) => (
           <div key={item.id} className={containerDiv}>
@@ -102,5 +115,6 @@ LiveShow.propTypes = {
   watchBtn: PropTypes.string,
   containerDiv: PropTypes.string,
   slideNumber: PropTypes.number,
+  category: PropTypes.string,
 };
 export default LiveShow;
