@@ -7,17 +7,24 @@ const ApiData = async ({ category }) => {
       "x-rapidapi-host": "imdb236.p.rapidapi.com",
     },
   };
-  let result;
+
+  let result = null;  // Define result initially as null
+
   try {
     const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
     result = await response.json();
-    // console.log(result);
+    // console.log(result);  // Optionally log the result for debugging
   } catch (error) {
-    console.error("from error" + error);
+    console.error("Error:", error);
   }
-  console.log(result);
-  console.log(url, category);
+
+  console.log("Result:", result); // Log result after checking for errors
+  console.log("URL:", url, "Category:", category);
 
   return result;
 };
+
 export default ApiData;
