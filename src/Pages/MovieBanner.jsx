@@ -9,8 +9,8 @@ function MovieBanner() {
     <div>
       <div className={"w-full h-screen"}>
         <img
-          src={data.primaryImage}
-          alt={data.primaryImage}
+          src={`https://image.tmdb.org/t/p/w500/${data.backdrop_path}`}
+          alt={data.poster_path}
           className={"w-full h-[80dvh] object-cover"}
         />
       </div>
