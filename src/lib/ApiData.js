@@ -1,30 +1,25 @@
-const ApiData = async ({ category }) => {
-  const url = `https://imdb236.p.rapidapi.com/imdb/${category}`;
+const ApiData = async () => {
+  const url =
+    "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc";
   const options = {
     method: "GET",
     headers: {
-      "x-rapidapi-key": "810cfb728fmsh6ad252880ab1024p137915jsncb13b5173818",
-      "x-rapidapi-host": "imdb236.p.rapidapi.com",
+      Authorization:
+        " Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NWQ3NTE1MmVlNGM2ZmNiNjQ1MjRmNGJjZjMyM2ZmNCIsIm5iZiI6MTc0MTYyNTQ3Ny4zMDQsInN1YiI6IjY3Y2YxODg1NjY3NmU5OTQwMDEwZjdhYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fI9FtQkUG77XUGvk5jGTOh1bX7RmbWhIs_7Kur9zbuU",
+      accept: "application/json",
     },
   };
-
-  let result = null;  // Define result initially as null
-
   try {
     const response = await fetch(url, options);
     if (!response.ok) {
-      throw new Error("Failed to fetch data");
+      throw new Error("Network response was not ok");
     }
-    result = await response.json();
-    // console.log(result);  // Optionally log the result for debugging
+    const result = await response.json();
+    // console.log(result);
+    return result.results;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("from error" + error);
+    return [];
   }
-
-  console.log("Result:", result); // Log result after checking for errors
-  console.log("URL:", url, "Category:", category);
-
-  return result;
-};
 
 export default ApiData;
