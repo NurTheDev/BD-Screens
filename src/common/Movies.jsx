@@ -5,26 +5,24 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import ApiData from "../lib/ApiData";
 import { FaArrowRightLong } from "react-icons/fa6";
+// import APIResult from "../lib/ApiData";
 
 Movies.propTypes = {
   title: PropTypes.string,
   category: PropTypes.string,
 };
 
-function Movies({ title, category }) {
+function Movies({ title }) {
   const [result, setResult] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await ApiData({ category });
+    ApiData()
+      .then((data) => {
+        console.log("Fetched Data:", data);
         setResult(data);
-      } catch {
-        console.error;
-        ("Error Fetching Data");
-      }
-    };
-    fetchData();
+      })
+      .catch((error) => console.error("Error Fetching Data:", error));
   }, []);
+
   const settings = {
     dots: false,
     infinite: true,
@@ -84,7 +82,7 @@ function Movies({ title, category }) {
         </div>
       </div>
       <Slider {...settings}>
-        {result.map((item) => (
+        {result?.map((item) => (
           <div
             key={item.id}
             className={
@@ -93,14 +91,14 @@ function Movies({ title, category }) {
           >
             <div className={"lg:w-64 w-16 h-28 lg:h-auto movieImgCard"}>
               <img
-                src={item.primaryImage}
+                src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
                 alt={item.title}
                 className="object-cover w-full h-full"
               />
             </div>
             <div className={"absolute bottom-0 w-full movieTitleCard "}>
               <h3 className="text-xs lg:text-base 2xl:text-subtitle-2 font-semibold">
-                {item.primaryTitle}
+                {item.title}
               </h3>
             </div>
           </div>

@@ -7,24 +7,17 @@ import ApiData from "../lib/ApiData";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
-const LiveShow = ({
-  title,
-  category,
-  imgDiv,
-  watchBtn,
-  containerDiv,
-  slideNumber,
-}) => {
+const LiveShow = ({ title, imgDiv, watchBtn, containerDiv, slideNumber }) => {
   const navigate = useNavigate();
   const [result, setResult] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await ApiData({ category });
+        const data = await ApiData();
         setResult(data);
+        console.log("Fetched Data:", data);
       } catch {
-        console.error;
-        ("Error Fetching Data");
+        console.error("Error Fetching Data");
       }
     };
     fetchData();
@@ -100,14 +93,14 @@ const LiveShow = ({
           >
             <div className={imgDiv}>
               <img
-                src={item.primaryImage}
-                alt={item.title}
+                src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+                alt={item.backdrop_path}
                 className="object-cover w-full h-full"
               />
             </div>
             <div>
               <h1 className="text-xs lg:text-base 2xl:text-subtitle-1 font-semibold">
-                {item.primaryTitle}
+                {item.title}
               </h1>
               <p className="font-medium hidden lg:block">{item.type}</p>
               {watchBtn && (
