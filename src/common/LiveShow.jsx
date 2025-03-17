@@ -7,13 +7,20 @@ import ApiData from "../lib/ApiData";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
-const LiveShow = ({ title, imgDiv, watchBtn, containerDiv, slideNumber }) => {
+const LiveShow = ({
+  title,
+  imgDiv,
+  watchBtn,
+  containerDiv,
+  slideNumber,
+  category,
+}) => {
   const navigate = useNavigate();
   const [result, setResult] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await ApiData();
+        const data = await ApiData({ category });
         setResult(data);
         console.log("Fetched Data:", data);
       } catch {

@@ -12,16 +12,16 @@ Movies.propTypes = {
   category: PropTypes.string,
 };
 
-function Movies({ title }) {
+function Movies({ title, category }) {
   const [result, setResult] = useState([]);
   useEffect(() => {
-    ApiData()
+    ApiData({ category })
       .then((data) => {
         console.log("Fetched Data:", data);
         setResult(data);
       })
       .catch((error) => console.error("Error Fetching Data:", error));
-  }, []);
+  }, [category]);
 
   const settings = {
     dots: false,
