@@ -17,6 +17,7 @@ const LiveShow = ({
 }) => {
   const navigate = useNavigate();
   const [result, setResult] = useState([]);
+  console.log("Category:", category);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,7 +29,7 @@ const LiveShow = ({
       }
     };
     fetchData();
-  }, []);
+  }, [category]);
   const settings = {
     dots: false,
     infinite: true,
