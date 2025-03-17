@@ -1,6 +1,6 @@
-const ApiData = async () => {
-  const url =
-    "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc";
+const ApiData = async ({ category }) => {
+  const url = `https://api.themoviedb.org/3/${category}`;
+  console.log("Fetching data for category:", category);
   const options = {
     method: "GET",
     headers: {
@@ -12,7 +12,7 @@ const ApiData = async () => {
   try {
     const response = await fetch(url, options);
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      // throw new Error("Network response was not ok");
     }
     const result = await response.json();
     // console.log(result);
