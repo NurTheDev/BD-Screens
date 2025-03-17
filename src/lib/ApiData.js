@@ -21,5 +21,5 @@ const ApiData = async () => {
     console.error("from error" + error);
     return [];
   }
-
+};
 export default ApiData;
