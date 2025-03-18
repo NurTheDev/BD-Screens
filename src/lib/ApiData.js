@@ -1,4 +1,4 @@
-const ApiData = async ({ category }) => {
+const ApiData = async (category) => {
   const url = `https://api.themoviedb.org/3/${category}`;
   console.log("Fetching data for category:", category);
   const options = {

@@ -8,6 +8,17 @@
     --black-semi-medium: #363536;
     --black-medium: #4f4e50;
     --black-light: #e8ecef;
+
+    .slick-next::before {
+        content: "" !important;
+        display: block !important;
+        width: 10px !important;
+        height: 10px !important;
+        background-image: url("../src/assets/next.png") !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+    }
+
     --light-gray: #807e81;
     --white: #fff;
     /* font size */
@@ -77,7 +88,40 @@
     }
 
     .playBtn {
-        @apply flex gap-4 items-center bg-[rgba(255,255,255,0.10)] px-8 py-3 rounded-sm backdrop-blur-xl cursor-pointer hover:scale-105 transition-all duration-100 hover:bg-transparent hover:border hover:border-white hover:backdrop-blur-none
+        @apply flex gap-4 items-center bg-[rgba(255,255,255,0.10)] px-8 py-3 rounded-sm backdrop-blur-xl cursor-pointer hover:scale-105 transition-all duration-100 hover:bg-transparent hover:border hover:border-white hover:backdrop-blur-none justify-center
+    }
+
+    .slick-next {
+        /*background: red !important;:*/
+        right: 0 !important;
+    }
+
+
+    .slick-next::before {
+        content: "" !important;
+        display: block !important;
+        width: 20px !important;
+        height: 20px !important;
+        background-image: url("../src/assets/next.png") !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+    }
+
+
+    .slick-prev {
+        /*background: red !important;*/
+        left: 0 !important;
+        z-index: 1;
+    }
+
+    .slick-prev::before {
+        content: "" !important;
+        display: block !important;
+        width: 20px !important;
+        height: 20px !important;
+        background-image: url("../src/assets/prev.png") !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
     }
 }
 
