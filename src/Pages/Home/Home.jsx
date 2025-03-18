@@ -51,17 +51,13 @@ const Home = () => {
         imgDiv={"lg:w-40 w-16 h-28 lg:h-20"}
         watchBtn={"Watch"}
         category={"movie/upcoming?language=en-US&page=1"}
-        containerDiv={
-          "!flex cursor-pointer hover:scale-105 transition-all duration-100 !flex-col lg:!flex-row !justify-center !gap-x-4 !items-center"
-        }
+        containerDiv={"imageSlide_container"}
         slideNumber={4}
       />
       <LiveShow
         title={"Most Popular"}
         imgDiv={"lg:w-64 w-16 h-28 lg:h-auto movieImgCard"}
-        containerDiv={
-          "!flex cursor-pointer hover:scale-105 transition-all duration-100 !flex-col !justify-center text-center !items-center"
-        }
+        containerDiv={"imageSlide_container"}
         category={"movie/now_playing?language=en-US&page=1"}
         slideNumber={5}
       />

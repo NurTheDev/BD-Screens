@@ -4,6 +4,8 @@ import Slider from "react-slick";
 import playBtn from "../assets/playBtn.svg";
 import { RiPlayListAddLine } from "react-icons/ri";
 import ApiData from "../lib/ApiData";
+import LiveShow from "../common/LiveShow.jsx";
+import Movies from "../common/Movies.jsx";
 
 function MovieBanner() {
   var settings = {
@@ -80,6 +82,31 @@ function MovieBanner() {
           </div>
         ))}
       </Slider>
+      <LiveShow
+        title={"Watch Now"}
+        imgDiv={"lg:w-40 w-16 h-28 lg:h-20"}
+        watchBtn={"Watch"}
+        category={"movie/upcoming?language=en-US&page=1"}
+        containerDiv={"imageSlide_container"}
+        slideNumber={4}
+      />
+      <LiveShow
+        title={"Most Popular"}
+        imgDiv={"lg:w-64 w-16 h-28 lg:h-auto movieImgCard"}
+        containerDiv={"imageSlide_container"}
+        category={"movie/now_playing?language=en-US&page=1"}
+        slideNumber={5}
+      />
+      <Movies
+        title={"Movies for you"}
+        category={
+          "discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc"
+        }
+      />
+      <Movies
+        title={"Latest Bangla Music"}
+        category={"movie/upcoming?language=en-US&page=1"}
+      />
     </div>
   );
 }

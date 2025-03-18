@@ -68,7 +68,7 @@ const LiveShow = ({
     ],
   };
   const handleClick = (data) => {
-    navigate("/MovieBanner", { state: { data } });
+    navigate("/WatchMovie", { state: { data } });
     console.log(data);
   };
   return (
