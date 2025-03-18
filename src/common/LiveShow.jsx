@@ -21,7 +21,7 @@ const LiveShow = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await ApiData({ category });
+        const data = await ApiData(category);
         setResult(data);
         console.log("Fetched Data:", data);
       } catch {

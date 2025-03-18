@@ -16,7 +16,7 @@ const Navbar = () => {
   const location = useLocation();
 
   const navItems = [
-    { name: "Home", path: "/home", icon: <IoHomeOutline />, id: 1 },
+    { name: "Home", path: "/", icon: <IoHomeOutline />, id: 1 },
     { name: "Movie", path: "/movie", icon: <MdOutlineLocalMovies />, id: 2 },
     { name: "Drama", path: "/drama", icon: <LuDrama />, id: 3 },
     {
