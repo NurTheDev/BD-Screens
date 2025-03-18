@@ -21,7 +21,7 @@ const LiveShow = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await ApiData({ category });
+        const data = await ApiData(category);
         setResult(data);
         console.log("Fetched Data:", data);
       } catch {
@@ -68,7 +68,7 @@ const LiveShow = ({
     ],
   };
   const handleClick = (data) => {
-    navigate("/MovieBanner", { state: { data } });
+    navigate("/WatchMovie", { state: { data } });
     console.log(data);
   };
   return (

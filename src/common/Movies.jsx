@@ -15,7 +15,7 @@ Movies.propTypes = {
 function Movies({ title, category }) {
   const [result, setResult] = useState([]);
   useEffect(() => {
-    ApiData({ category })
+    ApiData(category)
       .then((data) => {
         console.log("Fetched Data:", data);
         setResult(data);
