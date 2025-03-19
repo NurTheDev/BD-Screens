@@ -11,6 +11,7 @@ import Movies from "../common/Movies.jsx";
 // WatchMovie.propTypes = {};
 
 function WatchMovie() {
+  const [modal, setModal] = useState(false);
   const [API, setAPI] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -26,9 +27,40 @@ function WatchMovie() {
   const location = useLocation();
   const { data } = location.state || {};
   console.log(data);
+  const handlePlayBtn = () => {
+    setModal(true);
+  };
   return (
     <div className={"xl:px-16 px-5"}>
-      <div className={"grid grid-cols-12 mt-5"}>
+      {modal && (
+        <div className={"fixed inset-0 z-50 flex items-center justify-center"}>
+          <div role="alert" className="alert alert-warning w-1/2 mx-auto">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <span className={"text-subtitle-1 font-semibold"}>
+              You need to login first
+            </span>
+            <button
+              className="btn btn-outline btn-error"
+              onClick={() => setModal(false)}
+            >
+              Error
+            </button>
+          </div>
+        </div>
+      )}
+      <div className={`grid grid-cols-12 mt-5 ${modal && "blur"}`}>
         <div className={"lg:col-span-9 col-span-12"}>
           <div className={"w-full h-[80dvh] relative "}>
             <img
@@ -43,6 +75,7 @@ function WatchMovie() {
                 src={playBtn}
                 alt={playBtn}
                 className={"cursor-pointer lg:w-16"}
+                onClick={handlePlayBtn}
               />
             </span>
           </div>
