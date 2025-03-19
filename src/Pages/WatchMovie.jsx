@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import playBtn from "../assets/playBtn.svg";
 import { RiPlayListAddLine } from "react-icons/ri";
 import { IoShareSocial } from "react-icons/io5";
@@ -11,6 +11,7 @@ import Movies from "../common/Movies.jsx";
 // WatchMovie.propTypes = {};
 
 function WatchMovie() {
+  const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [API, setAPI] = useState([]);
   useEffect(() => {
@@ -29,6 +30,9 @@ function WatchMovie() {
   console.log(data);
   const handlePlayBtn = () => {
     setModal(true);
+  };
+  const handleClick = (data) => {
+    navigate("/WatchMovie", { state: { data } });
   };
   return (
     <div className={"xl:px-16 px-5"}>
@@ -135,8 +139,9 @@ function WatchMovie() {
               <div
                 key={item.id}
                 className={
-                  "flex flex-col items-center justify-center text-center w-[45%]"
+                  "flex flex-col items-center justify-center text-center w-[45%] cursor-pointer hover:scale-105 transition-all duration-100"
                 }
+                onClick={() => handleClick(item)}
               >
                 <img
                   src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}

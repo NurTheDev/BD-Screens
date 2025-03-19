@@ -8,31 +8,35 @@ import {
   MdOutlineConnectedTv,
   MdOutlineLocalMovies,
 } from "react-icons/md";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import Button from "./Button";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Home", path: "/", icon: <IoHomeOutline />, id: 1 },
     { name: "Movie", path: "/movie", icon: <MdOutlineLocalMovies />, id: 2 },
-    { name: "Drama", path: "/drama", icon: <LuDrama />, id: 3 },
+    { name: "Drama", icon: <LuDrama />, id: 3 },
     {
       name: "Music Video",
-      path: "/music-video",
+      // path: "/music-video",
       icon: <MdOndemandVideo />,
       id: 4,
     },
     {
       name: "Live Show",
-      path: "/live-show",
+      // path: "/live-show",
       icon: <MdOutlineConnectedTv />,
       id: 5,
     },
-    { name: "Comedies", path: "/comedies", icon: <FaRegSmileBeam />, id: 6 },
+    { name: "Comedies", icon: <FaRegSmileBeam />, id: 6 },
   ];
+  const handleClick = () => {
+    navigate("/search ");
+  };
   return (
     <div className="navbar shadow-sm xl:px-16">
       <div className="navbar-start">
@@ -99,7 +103,10 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end">
-        <span className="pr-6 lg:text-xl text-lg cursor-pointer hover:scale-105">
+        <span
+          onClick={handleClick}
+          className="pr-6 lg:text-xl text-lg cursor-pointer hover:scale-105"
+        >
           <HiMagnifyingGlass />
         </span>
         <Button btnContent={"Sign in"} />
