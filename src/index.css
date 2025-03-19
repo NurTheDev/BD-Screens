@@ -124,7 +124,11 @@
     }
 
     .imageSlide_container {
-        @apply !flex cursor-pointer hover:scale-105 transition-all duration-100 !flex-col lg:!flex-row !justify-center !gap-x-4 !items-center
+        @apply !flex cursor-pointer hover:scale-105 transition-all duration-100 !flex-col lg:!flex-row !justify-center !gap-x-4 !items-center;
+    }
+
+    .watchIcon {
+        @apply flex flex-col gap-4 justify-center items-center text-light-gray hover:text-[#1884F7] transition-all duration-100 cursor-pointer;
     }
 }
 

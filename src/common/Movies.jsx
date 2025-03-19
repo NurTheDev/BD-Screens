@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import ApiData from "../lib/ApiData";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 // import APIResult from "../lib/ApiData";
 
 Movies.propTypes = {
@@ -13,6 +14,7 @@ Movies.propTypes = {
 };
 
 function Movies({ title, category }) {
+  const navigate = useNavigate();
   const [result, setResult] = useState([]);
   useEffect(() => {
     ApiData(category)
@@ -60,6 +62,10 @@ function Movies({ title, category }) {
       },
     ],
   };
+  const handleClick = (data) => {
+    navigate("/WatchMovie", { state: { data } });
+    console.log(data);
+  };
   return (
     <div className="mt-5 xl:mt-10 px-8 lg:mt-7 ">
       <div
@@ -85,6 +91,7 @@ function Movies({ title, category }) {
         {result?.map((item) => (
           <div
             key={item.id}
+            onClick={() => handleClick(item)}
             className={
               "!flex cursor-pointer hover:scale-105 transition-all duration-100 !flex-col !justify-center text-center !items-center relative"
             }

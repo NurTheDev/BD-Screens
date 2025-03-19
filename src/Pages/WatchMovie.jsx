@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import playBtn from "../assets/playBtn.svg";
+import { RiPlayListAddLine } from "react-icons/ri";
+import { IoShareSocial } from "react-icons/io5";
+import { FiDownload } from "react-icons/fi";
+import ApiData from "../lib/ApiData";
+import Movies from "../common/Movies.jsx";
 // import PropTypes from 'prop-types';
 //
 // WatchMovie.propTypes = {};
 
 function WatchMovie() {
+  const [API, setAPI] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const APIData = await ApiData("movie/top_rated?language=en-US&page=1");
+        setAPI(APIData);
+      } catch (error) {
+        console.error("Error Fetching Data:", error);
+      }
+    };
+    fetchData();
+  }, []);
   const location = useLocation();
   const { data } = location.state || {};
   console.log(data);
   return (
     <div className={"xl:px-16 px-5"}>
       <div className={"grid grid-cols-12 mt-5"}>
-        <div className={"col-span-9"}>
+        <div className={"lg:col-span-9 col-span-12"}>
           <div className={"w-full h-[80dvh] relative "}>
             <img
               src={`https://image.tmdb.org/t/p/w500/${data.backdrop_path}`}
@@ -21,7 +38,7 @@ function WatchMovie() {
                 "w-full h-[80dvh] object-cover bg-black-medium opacity-50"
               }
             />
-            <span className={"absolute top-1/2 left-1/2 w-full h-full "}>
+            <span className={"absolute top-1/2 left-1/2"}>
               <img
                 src={playBtn}
                 alt={playBtn}
@@ -29,7 +46,11 @@ function WatchMovie() {
               />
             </span>
           </div>
-          <div className={"mt-4 lg:mt-10"}>
+          <div
+            className={
+              "mt-4 lg:mt-10 flex flex-col lg:flex-row justify-between"
+            }
+          >
             <div className={" space-y-4"}>
               <h2
                 className={"text-subtitle-1 lg:text-heading-3 font-semibold "}
@@ -39,19 +60,73 @@ function WatchMovie() {
               <p className={"text-sm lg:text-subtitle-2 font-medium"}>
                 Release: {data.release_date}
               </p>
-              <p
-                className={
-                  "text-sm text-light-gray w-4/5 lg:w-2/3 truncate lg:overflow-visible lg:whitespace-normal"
-                }
-              >
-                {data.overview}
-              </p>
             </div>
-            <div></div>
+            <div className={"flex gap-4 lg:gap-10 mt-5 lg:mt-0"}>
+              <div className={"watchIcon"}>
+                <span className={"text-subtitle-2"}>
+                  <RiPlayListAddLine />
+                </span>
+                <span>Watchlist</span>
+              </div>
+              <div className={"watchIcon"}>
+                <span className={"text-subtitle-2"}>
+                  <IoShareSocial />
+                </span>
+                <span>share</span>
+              </div>
+              <div className={"watchIcon"}>
+                <span className={"text-subtitle-2"}>
+                  <FiDownload />
+                </span>
+                <span>Download</span>
+              </div>
+            </div>
+          </div>
+          <div className={"space-y-5 mt-5 lg:mt-10"}>
+            <p className={"text-subtitle-1"}>Description</p>
+            <p className={"text-sm text-light-gray lg:w-2/3"}>
+              {data.overview}
+            </p>
           </div>
         </div>
-        <div className={"col-span-3"}></div>
+        <div className={"lg:col-span-3 col-span-12 mt-8 lg:mt-0"}>
+          <h2 className={"text-heading-4 font-semibold lg:px-6 mb-8"}>
+            Movies for you
+          </h2>
+          <div
+            className={
+              "flex flex-wrap items-center justify-between lg:px-6 gap-4 overflow-x-hidden lg:h-[80vh]"
+            }
+          >
+            {API?.map((item) => (
+              <div
+                key={item.id}
+                className={
+                  "flex flex-col items-center justify-center text-center w-[45%]"
+                }
+              >
+                <img
+                  src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+                  alt={item.title}
+                />
+                <h3
+                  className={
+                    "text-xs lg:text-base xl:text-subtitle-2 font-semibold"
+                  }
+                >
+                  {item.title}
+                </h3>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+      <Movies
+        title={"Related Videos"}
+        category={
+          "discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc"
+        }
+      />
     </div>
   );
 }
