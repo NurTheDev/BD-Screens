@@ -108,7 +108,7 @@ const LiveShow = ({
             </div>
             <div>
               <h1 className="text-xs lg:text-base 2xl:text-subtitle-1 font-semibold">
-                {item.title}
+                {item.title || item.name}
               </h1>
               <p className="font-medium hidden lg:block">{item.type}</p>
               {watchBtn && (

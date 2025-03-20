@@ -90,12 +90,9 @@ function MovieBanner() {
         containerDiv={"imageSlide_container"}
         slideNumber={4}
       />
-      <LiveShow
+      <Movies
         title={"Most Popular"}
-        imgDiv={"lg:w-64 w-16 h-28 lg:h-auto movieImgCard"}
-        containerDiv={"imageSlide_container"}
         category={"movie/now_playing?language=en-US&page=1"}
-        slideNumber={5}
       />
       <Movies
         title={"Movies for you"}

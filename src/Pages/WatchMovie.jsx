@@ -59,7 +59,7 @@ function WatchMovie() {
               className="btn btn-outline btn-error"
               onClick={() => setModal(false)}
             >
-              Error
+              Close
             </button>
           </div>
         </div>
@@ -92,10 +92,10 @@ function WatchMovie() {
               <h2
                 className={"text-subtitle-1 lg:text-heading-3 font-semibold "}
               >
-                {data.title}
+                {data.title || data.name}
               </h2>
               <p className={"text-sm lg:text-subtitle-2 font-medium"}>
-                Release: {data.release_date}
+                Release: {data.release_date || data.first_air_date}
               </p>
             </div>
             <div className={"flex gap-4 lg:gap-10 mt-5 lg:mt-0"}>

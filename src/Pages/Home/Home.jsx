@@ -50,16 +50,15 @@ const Home = () => {
         title={"Watch Now"}
         imgDiv={"lg:w-40 w-16 h-28 lg:h-20"}
         watchBtn={"Watch"}
-        category={"movie/upcoming?language=en-US&page=1"}
+        category={
+          "discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc"
+        }
         containerDiv={"imageSlide_container"}
         slideNumber={4}
       />
-      <LiveShow
+      <Movies
         title={"Most Popular"}
-        imgDiv={"lg:w-64 w-16 h-28 lg:h-auto movieImgCard"}
-        containerDiv={"imageSlide_container"}
         category={"movie/now_playing?language=en-US&page=1"}
-        slideNumber={5}
       />
       <Movies
         title={"Movies for you"}

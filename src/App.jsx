@@ -5,6 +5,7 @@ import Index from "./Pages/Index";
 import MovieBanner from "./Pages/MovieBanner.jsx";
 import WatchMovie from "./Pages/WatchMovie.jsx";
 import SearchPage from "./Pages/SearchPage.jsx";
+import Error from "./Pages/Error.jsx";
 
 const App = () => {
   return (
@@ -14,9 +15,10 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="movie" element={<MovieBanner />} />
           <Route path="search" element={<SearchPage />} />
-          {/*<Route path="music-video" element={"Music Video"} />*/}
-          {/*<Route path="live-show" element={"Live Show"} />*/}
-          {/*<Route path="comedies" element={"Comedies"} />*/}
+          <Route path="music-video" element={<Error />} />
+          <Route path="live-show" element={<Error />} />
+          <Route path="comedies" element={<Error />} />
+          <Route path="drama" element={<Error />} />
 
           <Route path={"WatchMovie"} element={<WatchMovie />} />
         </Route>

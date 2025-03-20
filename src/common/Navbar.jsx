@@ -19,20 +19,20 @@ const Navbar = () => {
   const navItems = [
     { name: "Home", path: "/", icon: <IoHomeOutline />, id: 1 },
     { name: "Movie", path: "/movie", icon: <MdOutlineLocalMovies />, id: 2 },
-    { name: "Drama", icon: <LuDrama />, id: 3 },
+    { name: "Drama", path: "/drama", icon: <LuDrama />, id: 3 },
     {
       name: "Music Video",
-      // path: "/music-video",
+      path: "/music-video",
       icon: <MdOndemandVideo />,
       id: 4,
     },
     {
       name: "Live Show",
-      // path: "/live-show",
+      path: "/live-show",
       icon: <MdOutlineConnectedTv />,
       id: 5,
     },
-    { name: "Comedies", icon: <FaRegSmileBeam />, id: 6 },
+    { name: "Comedies", path: "/comedies", icon: <FaRegSmileBeam />, id: 6 },
   ];
   const handleClick = () => {
     navigate("/search ");
