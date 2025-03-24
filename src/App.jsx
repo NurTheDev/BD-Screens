@@ -6,6 +6,8 @@ import MovieBanner from "./Pages/MovieBanner.jsx";
 import WatchMovie from "./Pages/WatchMovie.jsx";
 import SearchPage from "./Pages/SearchPage.jsx";
 import Error from "./Pages/Error.jsx";
+import Signin from "./Pages/Signin.jsx";
+import SignUp from "./Pages/SignUp.jsx";
 
 const App = () => {
   return (
@@ -19,9 +21,11 @@ const App = () => {
           <Route path="live-show" element={<Error />} />
           <Route path="comedies" element={<Error />} />
           <Route path="drama" element={<Error />} />
-
           <Route path={"WatchMovie"} element={<WatchMovie />} />
+          <Route path="*" element={<Error />} />
         </Route>
+        <Route path="signin" element={<Signin />} />
+        <Route path="signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );

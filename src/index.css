@@ -95,8 +95,34 @@
         /*background: red !important;:*/
         right: 0 !important;
     }
-
-
+.customBorder{
+    position: relative;
+}
+    .customBorder:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 40%;
+        height: 1px;
+        border: 1px solid var(--light-gray);
+        z-index:  1;
+    }
+.customBorder:before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 40%;
+    height: 1px;
+    border: 1px solid var(--light-gray);
+    z-index:  1;
+}
+    .slick-next {
+        /*background: red !important;*/
+        right: 0 !important;
+        z-index: 1;
+}
     .slick-next::before {
         content: "" !important;
         display: block !important;
@@ -652,7 +678,6 @@
     body {
         background-color: var(--primary-black);
     }
-
     body {
         color: var(--white);
         font-family: var(--poppins), serif;

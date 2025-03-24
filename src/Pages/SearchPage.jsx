@@ -58,7 +58,7 @@ function SearchPage() {
               key={index}
               onClick={() => handleClick(data)}
               className={
-                "w-1/6 flex flex-col items-center hover:scale-105 transition-all duration-100 cursor-pointer"
+                "w-2/5 lg:w-1/6 flex flex-col items-center hover:scale-105 transition-all duration-100 cursor-pointer"
               }
             >
               <img
@@ -66,10 +66,10 @@ function SearchPage() {
                 alt={data.poster_path}
               />
               <div className={"space-y-2 mt-2 text-center"}>
-                <h2 className={"text-subtitle-1 font-semibold"}>
+                <h2 className={"lg:text-subtitle-1 font-semibold"}>
                   {data.title}
                 </h2>
-                <p className={"text-light-gray"}>
+                <p className={"text-light-gray text-sm lg:text-base"}>
                   Release: {data.release_date}
                 </p>
               </div>
