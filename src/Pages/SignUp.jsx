@@ -2,16 +2,26 @@ import React, { useState } from "react";
 import signInImg from "../assets/cover2.png";
 import { Link } from "react-router-dom";
 import { Flip, toast } from "react-toastify";
+import avatar from "../assets/avatar.gif";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+import { ClipLoader } from "react-spinners";
 
 function Signin() {
   const [input, setInput] = useState({ fullName: "", email: "", password: "" });
   const [error, setError] = useState({ fullName: "", email: "", password: "" });
+  const [loading, setLoading] = useState(false);
   const auth = getAuth();
+  const neonGlowOverride = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "#ff6ec7", // Hot pink color
+    boxShadow: "0 0 15px #ff6ec7", // Neon glow
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -27,6 +37,7 @@ function Signin() {
     setError(newError);
     const hasErrors = Object.values(newError).some((value) => value !== "");
     if (!hasErrors) {
+      setLoading(true);
       createUserWithEmailAndPassword(auth, input.email, input.password)
         .then((userCredential) => {
           // Signed up
@@ -36,6 +47,17 @@ function Signin() {
             uid: user.uid,
             email: user.email,
             photo_url: "",
+          });
+          return user;
+        })
+        .then((data) => {
+          console.log(data);
+          const db = getDatabase();
+          set(ref(db, "users/" + data.uid), {
+            fullName: input.fullName || "",
+            email: data.email || "",
+            userId: data.uid || "",
+            profile_picture: data.photoURL || avatar,
           });
         })
         .then(() => {
@@ -50,7 +72,6 @@ function Signin() {
             theme: "dark",
             transition: Flip,
           });
-          console.log("User Created");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -64,12 +85,29 @@ function Signin() {
           }
           console.log("errorCode:" + errorCode, "errorMessage:" + errorMessage);
           // ..
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
   return (
-    <div>
-      <div className={"grid lg:grid-cols-2 min-h-screen"}>
+    <div className={"relative"}>
+      {loading && (
+        <ClipLoader
+          color="#f41b3b"
+          size={150}
+          speedMultiplier={1.2}
+          loading={true}
+          cssOverride={neonGlowOverride}
+          className={
+            "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          }
+        />
+      )}
+      <div
+        className={`grid lg:grid-cols-2 min-h-screen ${loading && "opacity-30"}`}
+      >
         <div
           className={
             "flex lg:order-2 order-1 justify-center items-center h-full"
