@@ -7,6 +7,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
+  sendEmailVerification,
 } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 import { ClipLoader } from "react-spinners";
@@ -15,6 +16,7 @@ function Signin() {
   const [input, setInput] = useState({ fullName: "", email: "", password: "" });
   const [error, setError] = useState({ fullName: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [verify, setVerify] = useState(false);
   const auth = getAuth();
   const neonGlowOverride = {
     display: "block",
@@ -72,6 +74,10 @@ function Signin() {
             theme: "dark",
             transition: Flip,
           });
+          sendEmailVerification(auth.currentUser);
+        })
+        .then(() => {
+          setVerify(true);
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -104,6 +110,30 @@ function Signin() {
             "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           }
         />
+      )}
+      {verify && (
+        <div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primaryColor px-6 py-2 rounded-lg">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button
+                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                onClick={() => setVerify(false)}
+              >
+                ✕
+              </button>
+            </form>
+            <h3 className="font-bold text-lg w-11/12">
+              {input.fullName} to login you need to Verify your email
+            </h3>
+            <p className="py-4">
+              a verify email has been send to {input.email}
+            </p>
+            <Link to={"/signin"} className={"text-center"}>
+              Log in
+            </Link>
+          </div>
+        </div>
       )}
       <div
         className={`grid lg:grid-cols-2 min-h-screen ${loading && "opacity-30"}`}
