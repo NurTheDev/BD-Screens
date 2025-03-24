@@ -1,43 +1,71 @@
 import React, { useState } from "react";
 import signInImg from "../assets/cover2.png";
 import { Link } from "react-router-dom";
-
-// import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { Flip, toast } from "react-toastify";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 function Signin() {
   const [input, setInput] = useState({ fullName: "", email: "", password: "" });
   const [error, setError] = useState({ fullName: "", email: "", password: "" });
-  // const auth = getAuth();
+  const auth = getAuth();
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (input.fullName === "") {
-    //   setError({ ...error, fullName: "You must enter your name" });
-    //   if (input.fullName.length < 2) {
-    //     setError({ ...error, fullName: "Name must be at least 2 characters" });
-    //   }
-    // }
-    // if (input.email === "") {
-    //   setError({ ...error, email: "You must enter your email" });
-    // }
-    // if (input.password === "") {
-    //   setError({ ...error, password: "You must enter your password" });
-    //   if (input.password.length < 6) {
-    //     setError({
-    //       ...error,
-    //       password: "Password must be at least 6 characters",
-    //     });
-    //   }
-    // }
+
     const newError = { fullName: "", email: "", password: "" };
     Object.keys(input).forEach((key) => {
       if (!input[key]) {
         newError[key] = `This field is required`;
       }
-      if (input.password && key === input[key].length < 6) {
+      if (key === "password" && key === input[key].length < 6) {
         newError[key] = "Password must be at least 6 characters";
       }
     });
     setError(newError);
+    const hasErrors = Object.values(newError).some((value) => value !== "");
+    if (!hasErrors) {
+      createUserWithEmailAndPassword(auth, input.email, input.password)
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          updateProfile(user, {
+            displayName: input.fullName,
+            uid: user.uid,
+            email: user.email,
+            photo_url: "",
+          });
+        })
+        .then(() => {
+          toast.success("Account Created Successfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Flip,
+          });
+          console.log("User Created");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          if (errorCode === "auth/email-already-in-use") {
+            setError({ ...error, email: "Email already in use" });
+          } else if (errorMessage.includes("email")) {
+            setError({ ...error, email: "Invalid email" });
+          } else if (errorMessage.includes("password")) {
+            setError({ ...error, password: "Invalid password" });
+          }
+          console.log("errorCode:" + errorCode, "errorMessage:" + errorMessage);
+          // ..
+        });
+    }
   };
   return (
     <div>
@@ -82,7 +110,6 @@ function Signin() {
                 />
                 <span>{error.email}</span>
               </div>
-
               <div>
                 <label className="fieldset-label">Password</label>
                 <input
