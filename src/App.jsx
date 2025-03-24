@@ -1,5 +1,4 @@
 import React from "react";
-// import Database from "Database/firebase.config.js";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Home from "./Pages/Home/Home";
 import Index from "./Pages/Index";
