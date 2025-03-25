@@ -3,12 +3,57 @@ import signInImg from "../assets/cover1.png";
 import googleIcon from "../assets/Google.svg";
 import facebookIcon from "../assets/Facebook.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { ClipLoader } from "react-spinners";
 import { Bounce, toast } from "react-toastify";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { getDatabase, ref, set } from "firebase/database";
+import avatar from "../assets/avatar.gif";
 
 function Signin() {
+  const provider = new GoogleAuthProvider();
+  const handleGoogleSignIn = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user);
+        console.log(token);
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+        return user;
+      })
+      .then((user) => {
+        const db = getDatabase();
+        set(ref(db, "users/" + user.uid), {
+          fullName: user.displayName || "",
+          email: user.email || "",
+          userId: user.uid || "",
+          profile_picture: user.photoURL || avatar,
+        }).then(() => {
+          navigate("/");
+        });
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+        console.log(errorCode, errorMessage, email, credential);
+      });
+  };
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [verify, setVerify] = useState(false);
@@ -167,7 +212,7 @@ function Signin() {
               Or
             </p>
             <div className={"flex justify-center flex-col"}>
-              <div className="btn mt-4">
+              <div className="btn mt-4" onClick={handleGoogleSignIn}>
                 <span>
                   <img
                     src={googleIcon || undefined}
@@ -175,7 +220,7 @@ function Signin() {
                   />
                 </span>
                 <span>Sign in with Google</span>
-              </div>{" "}
+              </div>
               <div className="btn mt-4">
                 <span>
                   <img
