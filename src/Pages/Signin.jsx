@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import signInImg from "../assets/cover1.png";
 import googleIcon from "../assets/Google.svg";
 import facebookIcon from "../assets/Facebook.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { ClipLoader } from "react-spinners";
 import { Bounce, toast } from "react-toastify";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 function Signin() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [verify, setVerify] = useState(false);
   const neonGlowOverride = {
     display: "block",
     margin: "0 auto",
@@ -38,6 +40,11 @@ function Signin() {
           // Signed in
           const user = userCredential.user;
           console.log(user);
+          if (user.emailVerified) {
+            navigate("/");
+          } else {
+            setVerify(true);
+          }
           // ...
         })
         .catch((error) => {
@@ -81,6 +88,24 @@ function Signin() {
             "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           }
         />
+      )}
+      {verify && (
+        <div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primaryColor px-6 py-5 rounded-lg w-1/2 z-1">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button
+                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                onClick={() => setVerify(false)}
+              >
+                ✕
+              </button>
+            </form>
+            <h3 className="font-bold text-lg w-11/12">
+              To login you need to Verify your email first
+            </h3>
+          </div>
+        </div>
       )}
       <div
         className={`grid lg:grid-cols-2 min-h-screen ${loading && "opacity-30"}`}
