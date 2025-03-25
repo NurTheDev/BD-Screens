@@ -11,8 +11,10 @@ import {
 } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 import { ClipLoader } from "react-spinners";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 function Signin() {
+  const [showPassword, setShowPassword] = useState(false);
   const [input, setInput] = useState({ fullName: "", email: "", password: "" });
   const [error, setError] = useState({ fullName: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -64,7 +66,7 @@ function Signin() {
         })
         .then(() => {
           toast.success("Account Created Successfully", {
-            position: "top-right",
+            position: "bottom-center",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -129,7 +131,10 @@ function Signin() {
             <p className="py-4">
               a verify email has been send to {input.email}
             </p>
-            <Link to={"/signin"} className={"text-center"}>
+            <Link
+              to={"/signin"}
+              className={"text-center btn bg-transparent border-none"}
+            >
               Log in
             </Link>
           </div>
@@ -180,14 +185,24 @@ function Signin() {
               </div>
               <div>
                 <label className="fieldset-label">Password</label>
-                <input
-                  type="password"
-                  className="input w-full mt-2"
-                  placeholder="Password"
-                  onChange={(e) =>
-                    setInput({ ...input, password: e.target.value })
-                  }
-                />
+                <div className={"relative"}>
+                  <input
+                    type={`${showPassword ? "text" : "password"}`}
+                    className="input w-full mt-2 "
+                    placeholder="Password"
+                    onChange={(e) =>
+                      setInput({ ...input, password: e.target.value })
+                    }
+                  />
+                  <span
+                    className={
+                      "absolute top-5 right-4 transform cursor-pointer"
+                    }
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
+                  </span>
+                </div>
                 <span>{error.password}</span>
               </div>
               <button className="btn mt-4">Sign up</button>
