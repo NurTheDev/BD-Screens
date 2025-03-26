@@ -115,7 +115,7 @@ function Signin() {
       )}
       {verify && (
         <div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primaryColor px-6 py-2 rounded-lg">
+          <div className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primaryColor px-6 py-2 rounded-lg">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
               <button
