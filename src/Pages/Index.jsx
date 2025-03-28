@@ -7,14 +7,15 @@ import { Bounce, toast } from "react-toastify";
 
 const Index = () => {
   const auth = getAuth();
-  const [verify, setVerify] = useState(false);
+  const [authSatus, setAutStatus] = useState("loading");
   const navigate = useNavigate();
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user.emailVerified) {
+      if (user && user.emailVerified) {
         // User is signed in and email is verified
-        setVerify(true);
-      } else {
+        setAutStatus("authenticated");
+      } else if (user) {
         navigate("/signin");
         toast.error(`${"Verify your email first"}`, {
           position: "bottom-center",
@@ -27,14 +28,16 @@ const Index = () => {
           theme: "dark",
           transition: Bounce,
         });
+      } else {
+        setAutStatus("guest");
       }
     });
   }, []);
   return (
     <div>
-      {verify && (
+      {(authSatus === "authenticated" || authSatus === "guest") && (
         <>
-          <Navbar />
+          <Navbar isGuest={authSatus === "guest"} />
           <Outlet />
           <Footer />
         </>

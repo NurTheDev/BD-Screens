@@ -17,20 +17,23 @@ import { getDatabase, ref, onValue } from "firebase/database";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { CgProfile } from "react-icons/cg";
 
-const Navbar = () => {
+// eslint-disable-next-line react/prop-types
+const Navbar = ({ isGuest }) => {
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
   const auth = getAuth();
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
+    if (!isGuest) {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setUser(user);
+        } else {
+          setUser(null);
+        }
+      });
+      return () => unsubscribe();
+    }
+  }, [isGuest]);
   useEffect(() => {
     if (user) {
       const db = getDatabase();
@@ -156,8 +159,8 @@ const Navbar = () => {
           <div className={"flex items-center"}>
             <div>
               <img
-                src={user.profile_picture || avatar}
-                alt=""
+                src={userData?.profile_picture || avatar}
+                alt={userData?.profile_picture || avatar}
                 className={"rounded-full w-8 h-8 lg:w-10 lg:h-10 object-cover"}
               />
             </div>
@@ -174,11 +177,19 @@ const Navbar = () => {
                 {profileItem?.map((item) => (
                   <div
                     key={item.id}
-                    className={"flex items-center justify-between text-base"}
+                    className={
+                      "flex items-center justify-between text-base hover:scale-105 transition duration-100 "
+                    }
                   >
                     <Link
                       to={item.path}
-                      className={"flex items-center gap-x-1 font-semibold"}
+                      className={"flex items-center gap-x-1 font-semibold "}
+                      onClick={() => {
+                        if (item.title === "Log out") {
+                          auth.signOut();
+                          navigate("/signin");
+                        }
+                      }}
                     >
                       <span className={"text-subtitle-2"}>{item.icon}</span>
                       <span>{item.title}</span>
