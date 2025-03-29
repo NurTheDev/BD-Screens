@@ -8,6 +8,7 @@ import SearchPage from "./Pages/SearchPage.jsx";
 import Error from "./Pages/Error.jsx";
 import Signin from "./Pages/Signin.jsx";
 import SignUp from "./Pages/SignUp.jsx";
+import SeeAll from "./Pages/SeeAll.jsx";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="live-show" element={<Error />} />
           <Route path="comedies" element={<Error />} />
           <Route path="drama" element={<Error />} />
+          <Route path="see-all" element={<SeeAll />} />
           <Route path={"WatchMovie"} element={<WatchMovie />} />
           <Route path="*" element={<Error />} />
         </Route>
