@@ -78,6 +78,7 @@ function Movies({ title, category }) {
           className={
             "flex justify-center items-center gap-x-4 cursor-pointer hover:scale-105"
           }
+          onClick={() => navigate("/see-all", { state: { category, title } })}
         >
           <span>See all</span>
           <span className={"text-primaryColor"}>

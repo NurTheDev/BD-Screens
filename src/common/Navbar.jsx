@@ -210,7 +210,7 @@ const Navbar = ({ isGuest }) => {
             </div>
           </div>
         ) : (
-          <Button btnContent={"Sign in"} />
+          <Button btnContent={"Sign in"} link={"/signin"} />
         )}
       </div>
     </div>

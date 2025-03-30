@@ -6,6 +6,7 @@ import { IoShareSocial } from "react-icons/io5";
 import { FiDownload } from "react-icons/fi";
 import ApiData from "../lib/ApiData";
 import Movies from "../common/Movies.jsx";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 // import PropTypes from 'prop-types';
 //
 // WatchMovie.propTypes = {};
@@ -14,6 +15,19 @@ function WatchMovie() {
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [API, setAPI] = useState([]);
+  const [user, setUser] = useState(null);
+  const auth = getAuth();
+  // Check if user is logged in
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, [auth]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,7 +67,9 @@ function WatchMovie() {
               />
             </svg>
             <span className={"lg:text-subtitle-1 font-semibold"}>
-              You need to login first
+              {user
+                ? "Video is not playable, this is a practice project"
+                : "You need to login first"}
             </span>
             <button
               className="btn btn-outline btn-error"

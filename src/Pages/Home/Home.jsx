@@ -67,7 +67,7 @@ const Home = () => {
         }
       />
       <Movies
-        title={"Latest Bangla Music"}
+        title={"Trending Movies"}
         category={"movie/upcoming?language=en-US&page=1"}
       />
     </>

@@ -2,11 +2,11 @@ import propTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Button = ({ btnContent }) => {
+const Button = ({ btnContent, link }) => {
   return (
     <Link
       className="py-[10px] cursor-pointer px-6 rounded-sm bg-primaryColor hover:bg-transparent border border-primaryColor transition-all duration-100 hover:scale-95 text-sm lg:text-base"
-      to={"/signin"}
+      to={link}
     >
       {btnContent}
     </Link>
@@ -14,5 +14,6 @@ const Button = ({ btnContent }) => {
 };
 Button.propTypes = {
   btnContent: propTypes.string.isRequired,
+  link: propTypes.string,
 };
 export default Button;
