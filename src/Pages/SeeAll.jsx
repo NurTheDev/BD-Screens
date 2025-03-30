@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ApiData from "../lib/ApiData.js";
 import { useLocation } from "react-router-dom";
-import Button from "../common/Button.jsx";
 
 function SeeAll() {
   const location = useLocation();
@@ -56,7 +55,13 @@ function SeeAll() {
           ))}
         </div>
         <div className={"flex justify-center items-center mt-10"}>
-          <Button btnContent={"Load More"} />
+          <button
+            className={
+              "py-[10px] cursor-pointer px-6 rounded-sm bg-primaryColor hover:bg-transparent border border-primaryColor transition-all duration-100 hover:scale-95 text-sm lg:text-base"
+            }
+          >
+            Load More
+          </button>
         </div>
       </div>
     </div>
