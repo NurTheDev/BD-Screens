@@ -1,14 +1,70 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <link href="/src/assets/logo.png" rel="icon" type="image/svg+xml"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>BD Screen</title>
-</head>
-<body>
-<div id="root"></div>
-<script src="/src/main.jsx" type="module"></script>
-<!--<script src="src/lib/ApiData.js"></script>-->
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>BD Screens — Bangladeshi film, drama and live shows</title>
+    <meta
+      name="description"
+      content="BD Screens streams Bangladeshi film, drama and live shows. Built by Md. Nur Islam as a full-stack portfolio project: React, Node/Express, Firebase and WebSocket watch parties."
+    />
+    <meta name="theme-color" content="#08080b" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Open Graph / social. Artwork is a local asset so the card never 404s. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="BD Screens — a streaming platform built in Dhaka" />
+    <meta
+      property="og:description"
+      content="Film, drama and live shows with a mood-based recommender and synchronised watch parties."
+    />
+    <meta property="og:image" content="/art/poster-monsoon-express.jpg" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="900" />
+    <meta property="og:site_name" content="BD Screens" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BD Screens — a streaming platform built in Dhaka" />
+    <meta
+      name="twitter:description"
+      content="Film, drama and live shows with a mood-based recommender and synchronised watch parties."
+    />
+    <meta name="twitter:image" content="/art/poster-monsoon-express.jpg" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/icon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/icon-180.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Warm up the image CDN only if live catalogue data is in use. -->
+    <link rel="preconnect" href="https://image.tmdb.org" crossorigin />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!--
+      No-JS and pre-hydration state. React replaces this on mount; before that it
+      gives the browser something to paint that matches the app's own theme, so
+      there is no white flash on a slow connection.
+    -->
+    <noscript>
+      <div
+        style="
+          padding: 4rem 1.5rem;
+          font-family: system-ui, sans-serif;
+          color: #f5f3ef;
+          background: #08080b;
+          min-height: 100dvh;
+        "
+      >
+        <h1 style="font-size: 2rem; margin: 0 0 0.5rem">BD Screens needs JavaScript</h1>
+        <p style="color: #a7a3a0; max-width: 34rem; line-height: 1.6">
+          This is a single-page application built with React. Enable JavaScript to browse the
+          catalogue, build a watchlist, or start a watch party.
+        </p>
+      </div>
+    </noscript>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

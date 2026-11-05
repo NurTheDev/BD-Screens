@@ -1,0 +1,5 @@
+# BD Screens — portfolio demo
+User-agent: *
+Allow: /
+Disallow: /watch/
+Disallow: /party/
