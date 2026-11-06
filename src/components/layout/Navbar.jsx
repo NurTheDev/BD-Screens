@@ -14,7 +14,17 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "./Logo.jsx";
 import { useAuth } from "../../lib/auth.jsx";
 import { useLibrary } from "../../lib/library.jsx";
-import { Search, Menu, Close, Bookmark, User, Logout, Sparkles, Users } from "../ui/Icons.jsx";
+import {
+  Search,
+  Menu,
+  Close,
+  Bookmark,
+  User,
+  Logout,
+  Sparkles,
+  Users,
+  Settings as SettingsIcon,
+} from "../ui/Icons.jsx";
 
 const LINKS = [
   { to: "/", label: "Home", end: true },
@@ -26,7 +36,7 @@ const LINKS = [
 export function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isSignedIn, user, signOut, mode } = useAuth();
+  const { isSignedIn, isUnverified, user, signOut, mode } = useAuth();
   const { stats } = useLibrary();
 
   const [scrolled, setScrolled] = useState(false);
@@ -167,7 +177,16 @@ export function Navbar() {
               Watch party
             </Link>
 
-            {isSignedIn ? (
+            {isUnverified ? (
+              <Link
+                to="/verify"
+                className="flex items-center gap-1.5 rounded-full border border-amber/45 bg-amber/10 px-3 py-1.5 text-[12px] font-medium text-amber transition hover:bg-amber/16"
+              >
+                <User size={14} />
+                <span className="hidden sm:inline">Verify email</span>
+                <span className="sm:hidden">Verify</span>
+              </Link>
+            ) : isSignedIn ? (
               <div className="relative">
                 <button
                   type="button"
@@ -215,9 +234,23 @@ export function Navbar() {
                       </div>
 
                       <Link
-                        to="/watchlist"
+                        to="/profile"
                         role="menuitem"
                         className="mt-1 flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] text-mist-200 transition hover:bg-white/6 hover:text-white"
+                      >
+                        <User size={15} /> Profile
+                      </Link>
+                      <Link
+                        to="/settings"
+                        role="menuitem"
+                        className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] text-mist-200 transition hover:bg-white/6 hover:text-white"
+                      >
+                        <SettingsIcon size={15} /> Settings
+                      </Link>
+                      <Link
+                        to="/watchlist"
+                        role="menuitem"
+                        className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] text-mist-200 transition hover:bg-white/6 hover:text-white"
                       >
                         <Bookmark size={15} /> My watchlist
                       </Link>
@@ -228,6 +261,16 @@ export function Navbar() {
                       >
                         <Sparkles size={15} /> Taste profile
                       </Link>
+
+                      {!user?.verified && mode === "firebase" && (
+                        <Link
+                          to="/verify"
+                          role="menuitem"
+                          className="flex items-center gap-2.5 rounded-lg bg-amber/10 px-2.5 py-2 text-[12.5px] text-amber transition hover:bg-amber/16"
+                        >
+                          Verify your email
+                        </Link>
+                      )}
                       <button
                         type="button"
                         role="menuitem"
@@ -326,18 +369,54 @@ export function Navbar() {
             </nav>
 
             <div className="mt-auto border-t border-white/8 pt-4">
-              {isSignedIn ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    signOut();
-                    setMenuOpen(false);
-                    navigate("/");
-                  }}
-                  className="btn btn-ghost w-full"
+              {isSignedIn && user ? (
+                <div className="space-y-2">
+                  <Link
+                    to="/profile"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-2.5 rounded-xl border border-white/8 px-3 py-2.5"
+                  >
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-signal to-lilac text-[12px] font-bold text-white">
+                      {(user.name ?? "V").slice(0, 1).toUpperCase()}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block truncate text-[13px] font-medium text-mist-100">
+                        {user.name}
+                      </span>
+                      <span className="block truncate text-[11px] text-mist-500">
+                        View profile
+                      </span>
+                    </span>
+                  </Link>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link
+                      to="/settings"
+                      onClick={() => setMenuOpen(false)}
+                      className="btn btn-ghost h-9 text-[12px]"
+                    >
+                      <SettingsIcon size={14} /> Settings
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        await signOut();
+                        setMenuOpen(false);
+                        navigate("/");
+                      }}
+                      className="btn btn-quiet h-9 text-[12px]"
+                    >
+                      <Logout size={14} /> Sign out
+                    </button>
+                  </div>
+                </div>
+              ) : isUnverified ? (
+                <Link
+                  to="/verify"
+                  onClick={() => setMenuOpen(false)}
+                  className="btn w-full border border-amber/45 bg-amber/10 text-amber"
                 >
-                  <Logout size={16} /> Sign out
-                </button>
+                  Verify your email
+                </Link>
               ) : (
                 <Link to="/signin" className="btn btn-primary w-full">
                   Sign in

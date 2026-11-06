@@ -287,4 +287,68 @@ export const Ticket = (props) => (
   </Icon>
 );
 
+/* ---- Account + settings ------------------------------------------------ */
+
+export const Mail = (props) => (
+  <Icon {...props}>
+    <rect x="3" y="5.5" width="18" height="13" rx="2.2" />
+    <path d="m3.8 7.2 7.3 5.2a1.5 1.5 0 0 0 1.8 0l7.3-5.2" />
+  </Icon>
+);
+
+export const Lock = (props) => (
+  <Icon {...props}>
+    <rect x="4.5" y="10.5" width="15" height="9.5" rx="2.2" />
+    <path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
+    <path d="M12 14v2.5" />
+  </Icon>
+);
+
+export const Settings = (props) => (
+  <Icon {...props}>
+    <circle cx="12" cy="12" r="3.1" />
+    <path d="M19.4 14.6a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5v.2a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z" />
+  </Icon>
+);
+
+export const Shield = (props) => (
+  <Icon {...props}>
+    <path d="M12 3.5 19 6v6c0 4.2-2.9 7.4-7 8.5-4.1-1.1-7-4.3-7-8.5V6l7-2.5Z" />
+    <path d="m9.2 12.1 2 2 3.6-3.9" />
+  </Icon>
+);
+
+export const Download = (props) => (
+  <Icon {...props}>
+    <path d="M12 4v10.5" />
+    <path d="m8 11 4 4 4-4" />
+    <path d="M4.5 18.5h15" />
+  </Icon>
+);
+
+export const Eye = (props) => (
+  <Icon {...props}>
+    <path d="M2.6 12S6 6.5 12 6.5 21.4 12 21.4 12 18 17.5 12 17.5 2.6 12 2.6 12Z" />
+    <circle cx="12" cy="12" r="2.7" />
+  </Icon>
+);
+
+export const EyeOff = (props) => (
+  <Icon {...props}>
+    <path d="M4 4.5 20 19.5" />
+    <path d="M9.6 9.7a2.9 2.9 0 0 0 4 4" />
+    <path d="M6.7 7.9C4.2 9.4 2.6 12 2.6 12s3.4 5.5 9.4 5.5a9.6 9.6 0 0 0 4-.9" />
+    <path d="M17.2 16.1c2.3-1.5 3.8-4.1 3.8-4.1s-3.4-5.5-9.4-5.5a9.9 9.9 0 0 0-2.3.3" />
+  </Icon>
+);
+
+export const Edit3 = (props) => (
+  <Icon {...props}>
+    <path d="M4.5 19.5h3.2L18.6 8.6a2.3 2.3 0 0 0-3.2-3.2L4.5 16.3v3.2Z" />
+    <path d="m14.4 6.5 3.1 3.1" />
+  </Icon>
+);
+
+export const Pencil = Edit3; // alias with the shorter name
+
 export const Compass2 = Compass;

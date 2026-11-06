@@ -13,6 +13,7 @@ import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { SiteLayout } from "./components/layout/SiteLayout.jsx";
 import { PageLoader } from "./components/layout/PageLoader.jsx";
+import { RequireAuth } from "./components/auth/RequireAuth.jsx";
 import { Home } from "./pages/Home.jsx";
 
 /* Home ships in the main bundle (it is the landing page); the rest are split. */
@@ -25,6 +26,9 @@ const Search = lazy(() => import("./pages/Search.jsx"));
 const Watchlist = lazy(() => import("./pages/Watchlist.jsx"));
 const SignIn = lazy(() => import("./pages/SignIn.jsx"));
 const SignUp = lazy(() => import("./pages/SignUp.jsx"));
+const VerifyEmail = lazy(() => import("./pages/VerifyEmail.jsx"));
+const Profile = lazy(() => import("./pages/Profile.jsx"));
+const Settings = lazy(() => import("./pages/Settings.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 
 export default function App() {
@@ -40,11 +44,37 @@ export default function App() {
           <Route path="title/:id" element={<TitleDetail />} />
           <Route path="party" element={<Party />} />
           <Route path="party/:code" element={<Party />} />
+
+          {/*
+           * Account-only surfaces. The guard sends visitors to /signin and
+           * unverified accounts to /verify, so neither page can be reached in a
+           * state that would make it render misleadingly.
+           */}
+          <Route
+            path="profile"
+            element={
+              <RequireAuth>
+                <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="settings"
+            element={
+              <RequireAuth>
+                <Settings />
+              </RequireAuth>
+            }
+          />
+
           <Route path="*" element={<NotFound />} />
         </Route>
 
         {/* Theatre: no navbar, no footer, full attention. */}
         <Route path="watch/:id" element={<Watch />} />
+
+        {/* Verification gate: reachable only while the account is unverified. */}
+        <Route path="verify" element={<VerifyEmail />} />
 
         {/* Auth: split-screen, its own layout. */}
         <Route path="signin" element={<SignIn />} />

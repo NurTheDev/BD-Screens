@@ -37,6 +37,7 @@ export default function SignIn() {
   const [formError, setFormError] = useState(/** @type {string | null} */ (null));
 
   const next = /** @type {string} */ (/** @type {any} */ (location.state)?.from ?? "/");
+  const bounced = /** @type {any} */ (location.state)?.reason === "unverified";
 
   /** @param {React.FormEvent} event */
   const onSubmit = async (event) => {
@@ -54,7 +55,19 @@ export default function SignIn() {
 
     setBusy(true);
     try {
-      await signIn(form.email.trim(), form.password);
+      const result = await signIn(form.email.trim(), form.password);
+
+      /*
+       * A credential is not a sign-in. If the address is unproven, the user goes
+       * to /verify with an explanation — never into the app with a banner they
+       * will learn to ignore.
+       */
+      if (result?.status === "unverified") {
+        toast.info("Verify your email to activate the account");
+        navigate("/verify", { replace: true });
+        return;
+      }
+
       toast.success("Welcome back");
       navigate(next);
     } catch (error) {
@@ -90,6 +103,16 @@ export default function SignIn() {
           <p className="mt-2 text-[13px] text-mist-400">
             Your watchlist and progress stay on this device either way.
           </p>
+
+          {bounced && !formError && (
+            <div
+              role="status"
+              className="mt-5 flex items-start gap-2 rounded-lg border border-amber/30 bg-amber/8 px-3 py-2.5 text-[12.5px] leading-relaxed text-amber"
+            >
+              <Warning size={14} className="mt-0.5 shrink-0" />
+              That account still needs email verification. Sign in again to resend the link.
+            </div>
+          )}
 
           {formError && (
             <div

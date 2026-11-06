@@ -516,3 +516,57 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/*
+ * The settings page can force reduced motion regardless of the OS, and can turn
+ * it *off* for someone whose system is set to reduce. The attribute wins because
+ * it is an explicit choice; the media query above stays as the default.
+ */
+html[data-reduce-motion="true"] {
+  scroll-behavior: auto;
+}
+html[data-reduce-motion="true"] *,
+html[data-reduce-motion="true"] *::before,
+html[data-reduce-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+html[data-reduce-motion="false"] *,
+html[data-reduce-motion="false"] *::before,
+html[data-reduce-motion="false"] *::after {
+  animation-duration: revert !important;
+  transition-duration: revert !important;
+}
+
+/* ---------------------------------------------------------------- *
+ * High contrast
+ * ---------------------------------------------------------------- */
+
+html[data-contrast="high"] {
+  --color-mist-600: #b9b4b0;
+  --color-mist-500: #cac5c1;
+  --color-mist-400: #dcd7d3;
+  --color-mist-300: #ece8e4;
+}
+
+html[data-contrast="high"] .field,
+html[data-contrast="high"] .panel,
+html[data-contrast="high"] .panel-raised {
+  border-color: rgb(255 255 255 / 0.34);
+}
+
+html[data-contrast="high"] :focus-visible {
+  outline-width: 3px;
+}
+
+/* ---------------------------------------------------------------- *
+ * Poster density
+ *
+ * "Cosy" is one setting, not a redesign: slightly larger type under each
+ * poster and a wider gap, for people reading on a phone in bed.
+ * ---------------------------------------------------------------- */
+
+html[data-posters="cosy"] .poster-meta-title {
+  font-size: 0.95rem;
+}`

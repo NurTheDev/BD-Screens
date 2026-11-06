@@ -10,7 +10,7 @@ Built and maintained by **[Md. Nur Islam](https://github.com/nurthedev)** — fu
   <img alt="Node" src="https://img.shields.io/badge/Node-20%2B-5FA04E?logo=node.js&logoColor=white">
   <img alt="Express" src="https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white">
   <img alt="Firebase" src="https://img.shields.io/badge/Firebase-Auth-FFCA28?logo=firebase&logoColor=black">
-  <img alt="Tests" src="https://img.shields.io/badge/tests-34%20passing-3DDC97">
+  <img alt="Tests" src="https://img.shields.io/badge/tests-69%20passing-3DDC97">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
 </p>
 
@@ -31,7 +31,7 @@ watch-party sync is real, the frames are not.
 | -------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | **Live demo**  | [`bd-screens-hfrw.vercel.app`](https://bd-screens-hfrw.vercel.app)                                                        |
 | **Stack**      | React 19 · Vite 6 · Tailwind 4 · Node/Express · Firebase Auth · WebSocket (`ws`)                                          |
-| **Test suite** | 34 tests — `npm test`                                                                                                     |
+| **Test suite** | 69 tests — `npm test`                                                                                                     |
 | **Docs**       | [Architecture](docs/ARCHITECTURE.md) · [API](docs/API.md) · [Security](docs/SECURITY.md) · [Decisions](docs/DECISIONS.md) |
 
 ---
@@ -99,7 +99,32 @@ live so the UI can be honest about it.
 - Every error carries a `requestId` that matches the server log line.
 - A React error boundary keeps one bad payload from white-screening the app.
 
-### 5. Accessibility and keyboard support are build steps, not afterthoughts
+### 5. Accounts that mean something
+
+An account is not a decorative login. Creating one sends a verification link, and
+**nothing is usable until the address is proven**: no profile, no settings, no
+data export. The app models this as a third auth state (`unverified`) rather than
+treating "has a Firebase session" as "signed in", which is the bug that makes
+verification emails meaningless.
+
+Once verified, the account has a real profile page (`/profile`) and a real
+settings page (`/settings`) with seven sections:
+
+| Section       | What actually happens                                                                           |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| Account       | Rename, see the verified address and provider, library counts                                   |
+| Security      | Change password (re-authenticated), change email (confirmed on the new address first), sign out |
+| Playback      | Autoplay, default volume, poster caption size, spoiler summaries                                |
+| Accessibility | Motion (follow system / reduce / allow), higher contrast text                                   |
+| Notifications | Stored switches, labelled as pending email delivery rather than faked                           |
+| Data          | Export everything as JSON, clear searches, reset the library                                    |
+| Delete        | Re-authentication plus a typed `DELETE`, then the account is gone                               |
+
+Every switch does something real. The two notification switches are honest about
+being stored-but-not-yet-delivered, and the whole system is covered by tests
+(`src/lib/auth-profile.test.js`, `src/lib/preferences.test.js`).
+
+### 6. Accessibility and keyboard support are build steps, not afterthoughts
 
 Skip link, visible focus rings, one polite live region for toasts, a
 keyboard-driven player (`Space`, `J`/`L`, `M`, `F`, arrows), `prefers-reduced-motion`
@@ -177,6 +202,7 @@ BD-Screens/
 │   └── data/catalogue.js    the curated demo catalogue + mood matcher
 ├── src/                     React client
 │   ├── pages/               one file per route, all code-split
+│   ├── components/auth/      the verified-account route guard
 │   ├── components/          layout · home · watch · ui (design system)
 │   ├── lib/                 api client, auth, library, watch party, storage
 │   ├── hooks/               useFetch, useAsync, useDebounced, useInView
@@ -194,7 +220,7 @@ BD-Screens/
 | `npm run dev`    | API and Vite dev server together, with the browser proxying `/api` and `/ws` |
 | `npm run build`  | Production client build                                                      |
 | `npm start`      | Serve the built client + API from one Express process                        |
-| `npm test`       | 34 unit and HTTP tests via Node's built-in runner                            |
+| `npm test`       | 69 tests via Node's built-in runner (server + account logic)                 |
 | `npm run lint`   | ESLint (flat config, separate client/server environments)                    |
 | `npm run format` | Prettier                                                                     |
 
@@ -204,16 +230,16 @@ BD-Screens/
 
 The first version worked, but it had problems worth naming:
 
-| v1                                                                               | v2                                                                           |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| TMDB token shipped in the bundle                                                 | Server-side proxy; no credential in the client                               |
-| Auth check on `emailVerified` in the client only, `console.log(user)` in sign-in | No credentials logged; generic failure copy; verification handled explicitly |
-| Firebase config hard-coded                                                       | Environment configuration, documented and optional                           |
-| `console.log` on every render                                                    | Removed; structured logging on the server                                    |
-| `react-slick` carousels duplicating slides                                       | Native scroll-snap rails — keyboard and touch work, no slider dependency     |
-| Pages with no error, empty or loading states                                     | Designed states for all three, everywhere                                    |
-| One 700-line stylesheet, classes per element                                     | Token-based design system, component classes only                            |
-| No tests, no docs, CRA-style README                                              | 34 tests, four docs, documented decisions                                    |
+| v1                                                                                                                                     | v2                                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| TMDB token shipped in the bundle                                                                                                       | Server-side proxy; no credential in the client                                                                        |
+| Auth check on `emailVerified` in the client only, and an unverified session still counted as signed in; `console.log(user)` in sign-in | Verification is enforced: an unverified account can only reach `/verify`. No credentials logged, generic failure copy |
+| Firebase config hard-coded                                                                                                             | Environment configuration, documented and optional                                                                    |
+| `console.log` on every render                                                                                                          | Removed; structured logging on the server                                                                             |
+| `react-slick` carousels duplicating slides                                                                                             | Native scroll-snap rails — keyboard and touch work, no slider dependency                                              |
+| Pages with no error, empty or loading states                                                                                           | Designed states for all three, everywhere                                                                             |
+| One 700-line stylesheet, classes per element                                                                                           | Token-based design system, component classes only                                                                     |
+| No tests, no docs, CRA-style README                                                                                                    | 69 tests, four docs, documented decisions                                                                             |
 
 ---
 
@@ -234,10 +260,10 @@ still holds up when someone else opens devtools.
 
 ### Projects
 
-| Project                               | When           | Stack                                                              | Notes                                                                                                                                                   |
-| ------------------------------------- | -------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **BD Screens** (this repo)            | 2025           | React, Vite, Tailwind, Node/Express, Firebase Auth, WebSocket      | Rebuilt from a client-only demo into a full-stack app: server-side TMDB proxy, mood-based recommender, synchronised watch parties, 34 tests, four docs. |
-| **Exclusive** — e-commerce storefront | Jun – Jul 2025 | React, Vite, RTK Query, Firebase Auth, Tailwind, Flowbite, DaisyUI | Product catalogue, cart and checkout, auth-gated routes. [exclusive-store.vercel.app](https://exclusive-store.vercel.app)                               |
+| Project                               | When           | Stack                                                              | Notes                                                                                                                                                                      |
+| ------------------------------------- | -------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **BD Screens** (this repo)            | 2025           | React, Vite, Tailwind, Node/Express, Firebase Auth, WebSocket      | Rebuilt from a client-only demo into a full-stack app: server-side TMDB proxy, mood-based recommender, synchronised watch parties, verified accounts, 69 tests, four docs. |
+| **Exclusive** — e-commerce storefront | Jun – Jul 2025 | React, Vite, RTK Query, Firebase Auth, Tailwind, Flowbite, DaisyUI | Product catalogue, cart and checkout, auth-gated routes. [exclusive-store.vercel.app](https://exclusive-store.vercel.app)                                                  |
 
 ### Education
 

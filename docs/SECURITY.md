@@ -61,33 +61,78 @@ transmits a password itself.
 | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | Password hashing, breach checks, rate limiting | Firebase Auth                                                                                              |
 | Session storage                                | Firebase SDK default (IndexedDB + refresh)                                                                 |
-| Email verification                             | `sendEmailVerification` at signup; surfaced in the UI, not silently ignored                                |
+| Email verification                             | **Required before the account is usable** — see §2a                                                        |
 | OAuth                                          | `signInWithPopup` with `GoogleAuthProvider`, `prompt: select_account` — no offline access, no extra scopes |
 | Sign-out                                       | Clears the Firebase session **and** the local demo profile                                                 |
+| Changing a password                            | Reauthentication (`reauthenticateWithCredential`) with the current password, then `updatePassword`         |
+| Changing an address                            | `verifyBeforeUpdateEmail` — the new address must be proven before it replaces the old one                  |
+| Deleting an account                            | Reauthentication first, then `user.delete()`; local library cleared with it                                |
 
 **No account enumeration.** Sign-in failures always read "Email or password is
 incorrect", regardless of which was wrong. The Firebase code is mapped to copy in
-`src/lib/auth-utils.js`; `auth/user-not-found` is only ever shown for the
-"create one instead?" hint inside a signed-in flow, never as a sign-in error.
+`src/lib/auth-utils.js`.
 
-**No credential logging.** The v1 sign-in handler had `console.log(input.email,
-input.password)`. Every `console.log` in the auth path was removed; nothing in
-`src/lib/auth.jsx` logs user input.
+**No credential logging.** The v1 sign-in handler had
+`console.log(input.email, input.password)`. Every `console.log` in the auth path
+was removed; nothing in `src/lib/auth.jsx` logs user input.
 
-**Client-side checks are UX, not security.** `emailVerified` decides whether to
-show a "verify your email" banner. Anything that matters — tmdb access, party
-hosting — is enforced on the server, never by the client. The app also does not
-read `emailVerified` to decide whether someone may use a feature.
+### 2a. The verification gate (a real bug that was fixed)
 
-### Testing without Firebase
+Firebase creates a _session_ on signup so the user can request a verification
+email. The address is not proven at that point, but the session is
+authenticated — and the original code treated any Firebase user as signed in:
 
-If the Firebase config is absent or the SDK cannot load (blocked network,
-adblocker), the app falls back to a **local demo profile** in `localStorage`. The
-account menu labels it "Local demo profile" and the sign-in footer says
-"Demo mode: local profile only". This exists so a reviewer can click through the
-product. It grants nothing beyond local state, and it says so.
+```js
+onAuthStateChanged(auth, (user) => {
+  setStatus(user ? "signed-in" : "signed-out"); // ← wrong: unverified counts
+});
+```
 
----
+The result was the reported bug: create an account, skip the inbox, and the app
+let you straight in. The verification email was decoration.
+
+The fix is a single derived state, `statusFor(user)`, used by the subscription,
+the sign-in return value and `refreshUser()`:
+
+| `emailVerified` | status       | What the user can reach                     |
+| --------------- | ------------ | ------------------------------------------- |
+| — (no user)     | `signed-out` | Public pages                                |
+| `false`         | `unverified` | `/verify` only — resend, re-check, sign out |
+| `true`          | `signed-in`  | Everything                                  |
+
+Consequences worth stating plainly:
+
+- **`isSignedIn` is only true for a verified address.** No page has to remember
+  to check verification; the guard (`components/auth/RequireAuth.jsx`) reads the
+  status and redirects to `/verify`.
+- **The nav shows "Verify email" instead of an account menu** for unverified
+  accounts, because an account menu implies an account that works.
+- **"I have verified" re-reads the provider** (`user.reload()`). Clicking a link
+  in another tab does not mutate the open session, so without this a correctly
+  verified user would still be told to check their inbox.
+- **The sign-up screen no longer says "start watching".** It said that before the
+  address was proven, which is the same bug in copy form.
+
+The gate is enforced where it matters: this app's only privileged surface is the
+account itself (profile, settings, data export). There is no server resource
+that trusts `emailVerified`, so no additional server check is needed — and
+`docs/ARCHITECTURE.md` records that as the reason the API has no auth layer.
+
+### 2b. Settings operations and reauthentication
+
+`src/lib/auth-profile.js` holds these, separately from React state, so they are
+testable without a DOM (28 tests in `auth-profile.test.js`):
+
+| Operation            | Guard                                                                                                                      |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `updateDisplayName`  | 2–40 characters, trimmed; Unicode marks allowed                                                                            |
+| `changePassword`     | Current password re-confirmed; new one ≥ 8 characters                                                                      |
+| `requestEmailChange` | Current password re-confirmed; confirmation sent to the **new** address; old address stays active until the link is opened |
+| `deleteAccount`      | Current password re-confirmed; typed `DELETE` confirmation in the UI                                                       |
+
+Every function returns `{ ok, code?, message? }` rather than throwing. A settings
+form that wraps five calls in `try/catch` eventually swallows one; a typed result
+cannot be missed.
 
 ## 3. Input handling
 
@@ -266,17 +311,26 @@ crashes the process.
 
 ## 9. Client-side storage
 
-| Key                                    | Contents                   | Lifetime      |
-| -------------------------------------- | -------------------------- | ------------- |
-| `bds:v1:watchlist`                     | Title ids, names, posters  | Until cleared |
-| `bds:v1:progress`                      | Resume positions           | Until cleared |
-| `bds:v1:taste-ratings`                 | Thumbs up/down             | Until cleared |
-| `bds:v1:recent-searches`               | Last five search terms     | Until cleared |
-| `bds:party-session` (`sessionStorage`) | Room code and display name | One tab       |
+| Key                                    | Contents                                       | Lifetime      |
+| -------------------------------------- | ---------------------------------------------- | ------------- |
+| `bds:v1:watchlist`                     | Title ids, names, posters                      | Until cleared |
+| `bds:v1:progress`                      | Resume positions                               | Until cleared |
+| `bds:v1:taste-ratings`                 | Thumbs up/down                                 | Until cleared |
+| `bds:v1:recent-searches`               | Last five search terms                         | Until cleared |
+| `bds:v1:preferences`                   | Playback, accessibility, notification switches | Until cleared |
+| `bds:party-session` (`sessionStorage`) | Room code and display name                     | One tab       |
 
-No credentials, tokens or email addresses are stored by this app. All access goes
-through `src/lib/storage.js`, which is namespaced, versioned, and degrades to
-memory when storage throws (private windows, embedded webviews, full quota).
+No credentials or tokens are stored by this app. The only personal data in
+storage is the display name and email of a **local demo profile** — written only
+when Firebase is absent, and labelled as such in the UI. All access goes through
+`src/lib/storage.js`, which is namespaced, versioned, and degrades to memory when
+storage throws (private windows, embedded webviews, full quota).
+
+The export in Settings (`Download JSON`) contains exactly these keys plus the
+account's display name and email, and never a password — the app has no access
+to one. Deletion in Settings clears the Firebase account _and_ offers to clear
+the local library; the two are separate on purpose, because clearing what you
+watched should not sign you out.
 
 ---
 

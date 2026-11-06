@@ -17,6 +17,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLibrary } from "../../lib/library.jsx";
 import { useMediaQuery } from "../../hooks/useFetch.js";
+import { usePreferences } from "../../lib/preferences.jsx";
 import { Play, Info, Plus, Check, Star, Clock } from "../ui/Icons.jsx";
 import { LivePill } from "../ui/Brand.jsx";
 
@@ -29,7 +30,10 @@ export function Hero({ items, loading = false }) {
   const slides = items?.slice(0, 4) ?? [];
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const systemReduced = useMediaQuery("(prefers-reduced-motion: reduce)");
+  // The Settings choice wins over the OS query; `null` there means "follow it".
+  const { motionReduced } = usePreferences();
+  const reducedMotion = motionReduced ?? systemReduced;
   const timer = useRef(/** @type {any} */ (null));
 
   const { inWatchlist, toggleWatchlist } = useLibrary();

@@ -196,7 +196,7 @@ state. That makes every view shareable and makes the back button behave.
 
 ## Testing strategy
 
-34 tests, run with Node's built-in runner — no Jest, no Vitest, no config.
+69 tests, run with Node's built-in runner — no Jest, no Vitest, no config.
 
 | File                            | Covers                                                                                         |
 | ------------------------------- | ---------------------------------------------------------------------------------------------- |

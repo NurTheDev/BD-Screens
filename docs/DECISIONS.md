@@ -227,7 +227,70 @@ Three things were built, tested, and then removed:
 
 ---
 
-## 013 — Documentation as a deliverable
+## 014 — An unverified account is not a signed-in account
+
+**Context.** Firebase creates an authenticated session at signup, because the
+user must be signed in to request a verification email. The app mapped "a
+Firebase user exists" to "signed in", so skipping the inbox gave full access. The
+verification email was the only thing that mentioned verification at all.
+
+**Decision.** Derive a third state, `unverified`, and treat it as the opposite of
+signed in. A route guard sends those sessions to `/verify`; the navbar replaces
+the account menu with a verification prompt; the sign-up screen no longer offers
+"start watching" before the address is proven.
+
+**Alternatives considered.**
+
+- _A dismissible banner over a working app._ This is the common compromise and
+  it teaches users to ignore banners. It also leaves every page responsible for
+  remembering to check.
+- _Blocking signup until verification_ (a custom token flow). Requires backend
+  work for the same outcome, and Firebase deliberately does not support it.
+- _Trusting `emailVerified` only on sensitive pages._ Fine in principle, but this
+  app has exactly one privileged surface — the account — so it would be the same
+  rule written five times instead of once.
+
+**Consequences.** One derived function decides access, and the rule is testable
+without a browser (28 tests). Unverified users get a screen that explains the one
+action left, instead of an app that half-works.
+
+---
+
+## 015 — Reauthentication is a UI step, not an error state
+
+**Context.** Firebase requires a recent sign-in for password, email and account
+deletion. The lazy implementation calls the operation and surfaces
+`auth/requires-recent-login` as a mystery error.
+
+**Decision.** Ask for the current password _before_ the operation, reauthenticate
+explicitly, then perform it. Each destructive action lives in its own card with
+its consequence written out, and deletion also requires typing `DELETE`.
+
+**Consequences.** One extra field on three forms, and no dead ends. The trade-off
+is that a user with a password manager has to paste one more time — worth it for
+an operation that cannot be undone.
+
+---
+
+## 016 — Preferences are applied, or they are labelled
+
+**Context.** Settings pages commonly accumulate switches that store a boolean and
+change nothing. The first draft of this one had a notifications section with no
+delivery mechanism whatsoever.
+
+**Decision.** Every switch is wired to the thing it claims to control (volume
+seeds the player, motion and contrast set `data-*` attributes on `<html>`, poster
+density has a CSS rule). The two notification switches are stored — the data is
+real and exportable — and labelled `Saved now · sends once email delivery
+exists`, rather than showing a fake "saved" toast for an email that will never
+arrive.
+
+**Consequences.** The honest label costs a fraction of a feature and buys the
+credibility of everything else on the page.
+
+---
+
+## 017 — Documentation as a deliverable
 
 **Context.** READMEs for portfolio projects are usually a stack list and a
 screenshot.

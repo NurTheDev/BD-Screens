@@ -90,4 +90,5 @@ export const KEYS = Object.freeze({
   tasteRatings: "taste-ratings",
   playerPrefs: "player-prefs",
   seenIntro: "seen-intro",
+  preferences: "preferences",
 });

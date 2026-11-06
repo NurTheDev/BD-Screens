@@ -48,7 +48,8 @@ export default function SignUp() {
     setBusy(true);
     try {
       const result = await signUp(form.name.trim(), form.email.trim(), form.password);
-      if (result?.verificationSent) {
+      if (result?.status === "unverified") {
+        // The account exists but is not usable yet: send them to the gate.
         setVerificationSent(true);
       } else {
         toast.success("Account created");
@@ -71,15 +72,19 @@ export default function SignUp() {
         <h1 className="mt-5 font-display text-[34px] leading-tight">Check your inbox</h1>
         <p className="mt-2 max-w-sm text-[13.5px] leading-relaxed text-mist-400">
           We sent a verification link to <span className="text-mist-100">{form.email}</span>.
-          You can browse and build a watchlist right away; downloading requires a verified
-          address.
+          The account is created but not active — open the link to unlock your profile and
+          settings.
         </p>
-        <div className="mt-6 flex gap-2">
-          <Link to="/" className="btn btn-primary">
-            Start watching <ArrowRight size={15} />
+        <p className="mt-3 max-w-sm text-[12px] leading-relaxed text-mist-500">
+          Nothing is lost while you wait: browsing works without an account, and your local
+          watchlist stays on this device.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          <Link to="/verify" className="btn btn-primary">
+            Open the verification page <ArrowRight size={15} />
           </Link>
-          <Link to="/signin" className="btn btn-ghost">
-            Back to sign in
+          <Link to="/browse" className="btn btn-ghost">
+            Keep browsing
           </Link>
         </div>
       </div>
@@ -298,7 +303,7 @@ export default function SignUp() {
 
           <p className="mt-5 text-center text-[10.5px] text-mist-600">
             {mode === "firebase"
-              ? "Passwords are handled by Firebase Authentication — never by this app."
+              ? "Passwords are handled by Firebase Authentication — never by this app. A verification link is sent before the account becomes active."
               : "Demo mode: accounts are stored in this browser only."}
           </p>
         </div>

@@ -21,7 +21,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{js,jsx,css}\" \"server/**/*.js\"",
-    "test": "node --test \"server/**/*.test.js\"",
+    "test": "node --test \"server/**/*.test.js\" \"src/**/*.test.js\"",
     "test:watch": "node --test --watch \"server/**/*.test.js\""
   },
   "dependencies": {

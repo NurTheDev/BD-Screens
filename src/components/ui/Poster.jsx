@@ -129,7 +129,7 @@ function PosterBase({
 
       <div className="mt-2 min-w-0">
         <Link to={href} className="block">
-          <h3 className="truncate text-[13px] font-medium text-mist-100 transition group-hover/poster:text-white">
+          <h3 className="poster-meta-title truncate text-[13px] font-medium text-mist-100 transition group-hover/poster:text-white">
             {title.title}
           </h3>
         </Link>

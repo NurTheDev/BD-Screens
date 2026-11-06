@@ -107,6 +107,17 @@ export function LibraryProvider({ children }) {
     });
   }, []);
 
+  /**
+   * Wipe everything this context owns. Used by Settings ("reset library") and by
+   * account deletion. Deliberately does not touch preferences or the session:
+   * clearing what you watched is not the same as signing out.
+   */
+  const resetLibrary = useCallback(() => {
+    setWatchlist([]);
+    setProgress([]);
+    setRatings({});
+  }, []);
+
   /* ---------------- Derived ---------------- */
 
   const continueWatching = useMemo(
@@ -133,6 +144,7 @@ export function LibraryProvider({ children }) {
       saveProgress,
       clearProgress,
       rate,
+      resetLibrary,
       stats: {
         watchlist: watchlist.length,
         inProgress: continueWatching.length,
@@ -148,6 +160,7 @@ export function LibraryProvider({ children }) {
       saveProgress,
       clearProgress,
       rate,
+      resetLibrary,
     ],
   );
 

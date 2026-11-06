@@ -18,6 +18,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePreferences } from "../../lib/preferences.jsx";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Expand, Muted, Pause, Play, Volume, Warning } from "../ui/Icons.jsx";
 
@@ -51,11 +52,14 @@ export function Player({
   locked = false,
 }) {
   const duration = (title?.runtime ?? 110) * 60;
+  const { preferences } = usePreferences();
 
   const [seconds, setSeconds] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
-  const [volume, setVolume] = useState(0.8);
+  // Seeded from the viewer's saved preference rather than a hard-coded 0.8, so
+  // the Settings slider changes something the next time a title opens.
+  const [volume, setVolume] = useState(preferences.defaultVolume);
   const [chromeVisible, setChromeVisible] = useState(true);
   const [notice, setNotice] = useState(true);
 
